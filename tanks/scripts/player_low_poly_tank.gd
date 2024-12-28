@@ -52,10 +52,14 @@ func _ready() -> void:
 	fire_decal_timer.timeout.connect(_on_timer_timeout)
 
 func _input(event: InputEvent) -> void:
+	if event.is_action_pressed("ui_cancel"):
+		Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
+		
 	if event is InputEventMouseMotion:
 		turret.rotation.y -= event.relative.x / Global.mouseXSensibility
 		turret_barrel.rotation.x -= -event.relative.y / Global.mouseYSensibility
 		turret_barrel.rotation.x = clamp(turret_barrel.rotation.x, deg_to_rad(-50),deg_to_rad(5))
+	
 	if event.is_action_released("player_toggle_camera"):
 		if fp_cam.current:
 			fp_cam.current = false
@@ -98,16 +102,16 @@ func _physics_process(delta: float) -> void:
 	if Input.is_action_pressed("player_turn_left"):
 		var turn_speed : float = turn_speed_at_velocity(velocity.length())
 		print(turn_speed)
-		rotation.y += turn_speed * delta
+		rotation.y += -input_dir.y * turn_speed * delta
 		if not keep_turret_fixed:
-			turret.rotation.y -= turn_speed*delta
+			turret.rotation.y -= -input_dir.y * turn_speed*delta
 		print(velocity.length_squared())
 	if Input.is_action_pressed("player_turn_right"):
 		var turn_speed : float = turn_speed_at_velocity(velocity.length())
 		print(turn_speed)
-		rotation.y -= turn_speed * delta
+		rotation.y -= -input_dir.y * turn_speed * delta
 		if not keep_turret_fixed:
-			turret.rotation.y += turn_speed*delta
+			turret.rotation.y += -input_dir.y * turn_speed*delta
 		print(velocity.length_squared())
 		
 	var direction : Vector3
