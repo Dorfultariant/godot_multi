@@ -1,0 +1,32 @@
+[gd_scene load_steps=6 format=3 uid="uid://jtjjt0ejpiyl"]
+
+[ext_resource type="PackedScene" uid="uid://byvdsbga2hwgp" path="res://testing/maps/csg_test_map.tscn" id="1_5asj7"]
+[ext_resource type="PackedScene" uid="uid://bvtp00ulw63sw" path="res://tanks/3D/low_poly_tank/player_low_poly_tank.tscn" id="2_44bem"]
+
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_ar71t"]
+sky_horizon_color = Color(0.64625, 0.65575, 0.67075, 1)
+ground_horizon_color = Color(0.64625, 0.65575, 0.67075, 1)
+
+[sub_resource type="Sky" id="Sky_sik1j"]
+sky_material = SubResource("ProceduralSkyMaterial_ar71t")
+
+[sub_resource type="Environment" id="Environment_g5q05"]
+background_mode = 2
+sky = SubResource("Sky_sik1j")
+tonemap_mode = 2
+glow_enabled = true
+
+[node name="TestWorld1" type="Node3D"]
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_g5q05")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(-0.866025, -0.433013, 0.25, 0, 0.5, 0.866025, -0.5, 0.75, -0.433013, 0, 0, 0)
+shadow_enabled = true
+directional_shadow_fade_start = 0.286
+
+[node name="CSG_test_map" parent="." instance=ExtResource("1_5asj7")]
+
+[node name="LowPolyTank" parent="." instance=ExtResource("2_44bem")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 7.01919, 0)

@@ -1,0 +1,23 @@
+[gd_scene load_steps=3 format=3 uid="uid://byvdsbga2hwgp"]
+
+[ext_resource type="Texture2D" uid="uid://c1vsfdox1b5vl" path="res://addons/kenney_prototype_textures/dark/texture_02.png" id="1_2dvlx"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_sdxqi"]
+albedo_texture = ExtResource("1_2dvlx")
+uv1_triplanar = true
+
+[node name="CSG_test_map" type="CSGCylinder3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 25, 0)
+material_override = SubResource("StandardMaterial3D_sdxqi")
+operation = 2
+use_collision = true
+radius = 1000.0
+height = 50.0
+
+[node name="CSGCombiner3D" type="CSGCombiner3D" parent="."]
+operation = 2
+
+[node name="CSGCylinder3D" type="CSGCylinder3D" parent="CSGCombiner3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, 0)
+radius = 998.0
+height = 49.0
