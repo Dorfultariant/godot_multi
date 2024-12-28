@@ -1,0 +1,30 @@
+[gd_scene load_steps=6 format=3 uid="uid://bttul5nfsstyl"]
+
+[ext_resource type="Texture2D" uid="uid://cf1i7j17becjf" path="res://addons/kenney_prototype_textures/red/texture_01.png" id="1_pp7h4"]
+
+[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_plfem"]
+friction = 0.6
+rough = true
+bounce = 0.6
+absorbent = true
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_toxpg"]
+albedo_texture = ExtResource("1_pp7h4")
+
+[sub_resource type="SphereMesh" id="SphereMesh_iw80b"]
+radial_segments = 12
+rings = 6
+
+[sub_resource type="ConvexPolygonShape3D" id="ConvexPolygonShape3D_xogvg"]
+points = PackedVector3Array(0.467994, 0.136791, 0.0269406, -0.474408, -0.13661, -0.00332484, -0.456201, -0.165977, -0.0184404, -0.00335515, 0.136705, -0.474355, -0.199852, 0.438269, 0.117485, 0.118294, -0.441054, 0.194277, -0.0340257, 0.122797, 0.472841, 0.178041, -0.317496, -0.335917, 0.223792, 0.439273, 0.0268254, -0.200555, -0.318473, -0.32185, -0.413128, 0.121351, -0.246157, 0.402877, -0.150438, 0.237263, -0.245119, -0.135866, 0.404612, 0.420936, 0.121156, -0.230683, -0.0338614, 0.443091, -0.217138, -0.411356, 0.135882, 0.238365, -0.171455, -0.458286, 0.0423838, 0.193421, 0.318033, 0.329738, 0.390275, -0.302771, -0.0183931, 0.224693, -0.121663, 0.422298, 0.0883843, -0.45895, -0.156248, 0.207256, 0.316037, -0.319319, 0.238408, -0.13596, -0.411261, -0.246169, -0.121336, -0.413125, -0.199006, -0.315973, 0.327679, -0.337989, 0.304184, -0.200958, -0.18528, 0.303222, 0.345327, 0.405501, 0.121052, 0.25398, -0.00335515, -0.136705, -0.474355, 0.420937, -0.121156, -0.230683, -0.474409, 0.13661, -0.00332484, -0.00335515, -0.182297, 0.452378)
+
+[node name="MoveableBall" type="RigidBody3D"]
+mass = 500.0
+physics_material_override = SubResource("PhysicsMaterial_plfem")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+material_override = SubResource("StandardMaterial3D_toxpg")
+mesh = SubResource("SphereMesh_iw80b")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+shape = SubResource("ConvexPolygonShape3D_xogvg")

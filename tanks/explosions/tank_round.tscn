@@ -1,6 +1,10 @@
-[gd_scene load_steps=11 format=4 uid="uid://cvs3wmih65xc5"]
+[gd_scene load_steps=12 format=4 uid="uid://cvs3wmih65xc5"]
 
 [ext_resource type="Script" path="res://tanks/explosions/tank_round.gd" id="1_yy7vy"]
+
+[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_6dx7h"]
+friction = 0.5
+bounce = 0.2
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_xhnbr"]
 resource_name = "Material #11"
@@ -71,6 +75,8 @@ radial_segments = 10
 rings = 6
 
 [node name="TankRound" type="RigidBody3D"]
+mass = 40.0
+physics_material_override = SubResource("PhysicsMaterial_6dx7h")
 script = ExtResource("1_yy7vy")
 
 [node name="Bullet_Shell_Shot" type="MeshInstance3D" parent="."]
@@ -92,4 +98,5 @@ draw_pass_1 = SubResource("SphereMesh_ee2rb")
 wait_time = 30.0
 autostart = true
 
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]
 [connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]

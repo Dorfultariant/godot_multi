@@ -1,0 +1,10 @@
+[gd_resource type="SphereMesh" load_steps=2 format=3 uid="uid://cq8t5xrmk00wb"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_gxnoq"]
+
+[resource]
+material = SubResource("StandardMaterial3D_gxnoq")
+radius = 0.025
+height = 0.05
+radial_segments = 12
+rings = 5

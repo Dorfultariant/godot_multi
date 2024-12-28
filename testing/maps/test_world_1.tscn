@@ -1,7 +1,8 @@
-[gd_scene load_steps=6 format=3 uid="uid://jtjjt0ejpiyl"]
+[gd_scene load_steps=7 format=3 uid="uid://jtjjt0ejpiyl"]
 
 [ext_resource type="PackedScene" uid="uid://byvdsbga2hwgp" path="res://testing/maps/csg_test_map.tscn" id="1_5asj7"]
 [ext_resource type="PackedScene" uid="uid://bvtp00ulw63sw" path="res://tanks/3D/low_poly_tank/player_low_poly_tank.tscn" id="2_44bem"]
+[ext_resource type="PackedScene" uid="uid://bttul5nfsstyl" path="res://world_objects/moveable_ball.tscn" id="3_fbv1k"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_ar71t"]
 sky_horizon_color = Color(0.64625, 0.65575, 0.67075, 1)
@@ -30,3 +31,21 @@ directional_shadow_fade_start = 0.286
 
 [node name="LowPolyTank" parent="." instance=ExtResource("2_44bem")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 7.01919, 0)
+
+[node name="MoveableBall" parent="." instance=ExtResource("3_fbv1k")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5.58475, 8.36762, -2.3872)
+
+[node name="MoveableBall2" parent="." instance=ExtResource("3_fbv1k")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5.58475, 8.36762, -14.9344)
+
+[node name="MoveableBall3" parent="." instance=ExtResource("3_fbv1k")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 58.2654, 8.36762, -2.3872)
+
+[node name="MoveableBall4" parent="." instance=ExtResource("3_fbv1k")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 46.3602, 8.36762, -56.2472)
+
+[node name="MoveableBall5" parent="." instance=ExtResource("3_fbv1k")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 23.7755, 8.36762, -123.841)
+
+[node name="MoveableBall6" parent="." instance=ExtResource("3_fbv1k")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 21.8604, 8.36762, -82.5641)

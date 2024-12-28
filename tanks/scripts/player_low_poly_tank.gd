@@ -67,10 +67,10 @@ func _input(event: InputEvent) -> void:
 		# Decal timer
 		fire_decal.set_visible(true)
 		if fire_decal_timer.is_stopped:
-			fire_decal_timer.wait_time = 0.3
+			fire_decal_timer.wait_time = 0.2
 			fire_decal_timer.start()
 		else:
-			fire_decal_timer.wait_time = 0.3
+			fire_decal_timer.wait_time = 0.2
 		
 		# Instantiate the shot tank round or weapon
 		var root_scene = get_tree().get_root()
@@ -133,4 +133,5 @@ func _physics_process(delta: float) -> void:
 	move_and_slide()
 
 func _on_timer_timeout():
+	
 	fire_decal.set_visible(false)

@@ -1,6 +1,6 @@
 extends RigidBody3D
 
-#var explosion = preload("res://scenes/weapons/ammo/explosion.tscn")
+var explosion = preload("res://tanks/explosions/explosion.tscn")
 var SPEED = 30.0
 @onready var particles = $GPUParticles3D
 #@onready var round = $
@@ -17,14 +17,14 @@ func initialize():
 	#audio_rocket_shoot.play()
 
 
-#func _on_body_entered(_body):
-	#var W = get_tree().get_root()
-	#var E = explosion.instantiate()
-	#E.set_global_transform(get_global_transform())
-	#W.add_child(E)
-	#
-	#despawn()
-	#
+func _on_body_entered(_body):
+	var W = get_tree().get_root()
+	var E = explosion.instantiate()
+	E.set_global_transform(get_global_transform())
+	W.add_child(E)
+	
+	despawn()
+	
 func despawn():
 	set_freeze_enabled(true)
 	round_col.set_shape(null)

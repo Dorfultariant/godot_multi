@@ -1,0 +1,26 @@
+[gd_scene load_steps=5 format=3 uid="uid://h2pbny6v8bqa"]
+
+[ext_resource type="Texture2D" uid="uid://d0ame4y8gasj0" path="res://addons/kenney_prototype_textures/orange/texture_10.png" id="1_lm4o5"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_nqbcn"]
+albedo_texture = ExtResource("1_lm4o5")
+uv1_triplanar = true
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_ttc7o"]
+top_radius = 2.0
+bottom_radius = 2.0
+height = 0.1
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_bkbjp"]
+size = Vector3(4, 4, 0.2)
+
+[node name="TestTarget" type="StaticBody3D"]
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 2, 0)
+material_override = SubResource("StandardMaterial3D_nqbcn")
+mesh = SubResource("CylinderMesh_ttc7o")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, 0)
+shape = SubResource("BoxShape3D_bkbjp")
