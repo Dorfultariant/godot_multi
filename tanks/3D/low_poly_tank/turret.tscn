@@ -301,8 +301,10 @@ transform = Transform3D(-1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, 0.0682
 near = 0.02
 
 [node name="SpringArm3D" type="SpringArm3D" parent="MeshTurret/MeshTurret_Barrel"]
+physics_interpolation_mode = 1
 transform = Transform3D(-1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, 0.205482, 0.116247, -0.399199)
 shape = SubResource("SphereShape3D_hyeys")
+margin = 0.1
 
 [node name="3rdPersonCam" type="Camera3D" parent="MeshTurret/MeshTurret_Barrel/SpringArm3D"]
 current = true
