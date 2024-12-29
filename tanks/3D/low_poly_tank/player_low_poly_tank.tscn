@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=4 uid="uid://bvtp00ulw63sw"]
+[gd_scene load_steps=14 format=4 uid="uid://bvtp00ulw63sw"]
 
 [ext_resource type="Script" path="res://tanks/scripts/player_low_poly_tank.gd" id="1_dwiox"]
 [ext_resource type="PackedScene" uid="uid://dabsa6xckq8f" path="res://tanks/3D/low_poly_tank/turret.tscn" id="2_a52ho"]
@@ -148,6 +148,14 @@ shadow_mesh = SubResource("ArrayMesh_cj7ak")
 [sub_resource type="ConvexPolygonShape3D" id="ConvexPolygonShape3D_s3ocq"]
 points = PackedVector3Array(0.196328, 0.118712, 0.225824, -0.199194, 0.118712, 0.225824, 0.188371, 0.00397248, -0.226319, -0.18592, 0.00317205, 0.234448, 0.169406, 0.162756, -0.200688, -0.184064, 0.00397248, -0.226319, 0.190299, 0.00317205, 0.234448, -0.159127, 0.15987, 0.121989, 0.157196, 0.160328, 0.122695, -0.170362, 0.161844, -0.198365, 0.197394, 0.118906, -0.221226, -0.210074, 0.0979294, 0.238089, 0.207208, 0.0979294, 0.238089, -0.20026, 0.118906, -0.221226, 0.207208, 0.135869, -0.201916, -0.210074, 0.135853, -0.201916, 0.0752834, 0.155836, 0.149035, 0.177338, 0.15574, 0.134259, 0.176703, 0.155481, -0.207995, -0.181747, 0.0969, -0.223411, -0.187815, 0.0316037, 0.236827, -0.210074, 0.135853, -0.156427, -0.0771, 0.154836, 0.147036, -0.177533, 0.154634, -0.205538, 0.207208, 0.135869, -0.156427, 0.185962, 0.0969, -0.223411, 0.192264, 0.0316206, 0.236822, -0.168652, 0.161043, -0.0540285)
 
+[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_xbmph"]
+properties/0/path = NodePath(".:position")
+properties/0/spawn = true
+properties/0/replication_mode = 1
+properties/1/path = NodePath(".:rotation")
+properties/1/spawn = true
+properties/1/replication_mode = 1
+
 [node name="LowPolyTank" type="CharacterBody3D"]
 script = ExtResource("1_dwiox")
 
@@ -167,3 +175,50 @@ shape = SubResource("ConvexPolygonShape3D_s3ocq")
 
 [node name="Turret" parent="." instance=ExtResource("2_a52ho")]
 transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 0, 0.144525, 0.0486038)
+
+[node name="UI" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Reticle" type="CenterContainer" parent="UI"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -20.0
+offset_right = 20.0
+offset_bottom = 20.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Up" type="Line2D" parent="UI/Reticle"]
+points = PackedVector2Array(0, -10, 0, -20)
+width = 2.0
+
+[node name="Right" type="Line2D" parent="UI/Reticle"]
+points = PackedVector2Array(10, 0, 20, 0)
+width = 2.0
+
+[node name="Down" type="Line2D" parent="UI/Reticle"]
+points = PackedVector2Array(0, 10, 0, 20)
+width = 2.0
+
+[node name="Left" type="Line2D" parent="UI/Reticle"]
+points = PackedVector2Array(-10, 0, -20, 0)
+width = 2.0
+
+[node name="Zoom Border" type="Polygon2D" parent="UI/Reticle"]
+color = Color(0.0295066, 0.0295066, 0.0295066, 1)
+invert_enabled = true
+invert_border = 1500.0
+polygon = PackedVector2Array(-1, -254, 125, -257, 272, -251, 409, -219, 488, -83, 494, 88, 454, 227, 309, 293, 129, 293, 30, 272, 5, 268, -15, 271, -83, 285, -258, 290, -414, 237, -476, 84, -468, -97, -381, -186, -281, -226, -157, -246)
+
+[node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="."]
+replication_config = SubResource("SceneReplicationConfig_xbmph")

@@ -29,7 +29,7 @@ var b : float = 2 * c # Period
 @onready var tp_cam = $"Turret/MeshTurret/MeshTurret_Barrel/SpringArm3D/3rdPersonCam"
 @onready var fire_decal = $"Turret/MeshTurret/MeshTurret_Barrel/Turret_Barrel_Pipe/fire_decal"
 @onready var fire_decal_timer = $"Turret/MeshTurret/MeshTurret_Barrel/Turret_Barrel_Pipe/decal_timer"
-
+@onready var zoom_border = $"UI/Reticle/Zoom Border"
 # PreLoads
 @export var weapon_1 : PackedScene = preload("res://tanks/explosions/tank_round.tscn")
 
@@ -48,6 +48,7 @@ func _ready() -> void:
 	Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
 	fp_cam.current = true
 	tp_cam.current = false
+	zoom_border.visible = false
 	
 	fire_decal_timer.timeout.connect(_on_timer_timeout)
 
@@ -67,6 +68,11 @@ func _input(event: InputEvent) -> void:
 		else:
 			tp_cam.current = false
 			fp_cam.current = true
+	# Zoom by reducing field of view
+	if event.is_action_pressed("player_second_shoot"):
+		fp_cam.fov = 30 if (fp_cam.fov == 75) else 75
+		zoom_border.visible = true if fp_cam.fov == 30 else false
+		
 	if event.is_action_pressed("player_shoot"):
 		# Decal timer
 		fire_decal.set_visible(true)

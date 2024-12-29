@@ -30,3 +30,9 @@ directional_shadow_fade_start = 0.286
 
 [node name="LowPolyTank" parent="." instance=ExtResource("2_44bem")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 7.01919, 0)
+
+[node name="Spawn_Root" type="Node" parent="."]
+
+[node name="MultiplayerSpawner" type="MultiplayerSpawner" parent="."]
+_spawnable_scenes = PackedStringArray("res://tanks/3D/low_poly_tank/player_low_poly_tank.tscn")
+spawn_path = NodePath("../Spawn_Root")
