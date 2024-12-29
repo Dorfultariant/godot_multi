@@ -3,13 +3,13 @@
 importer="scene"
 importer_version=1
 type="PackedScene"
-uid="uid://bk3ifomjkat4p"
-path="res://.godot/imported/fire_decal.glb-2f8ecc4939e3f5eae53b13a18442cd63.scn"
+uid="uid://citth6k2u5dbq"
+path="res://.godot/imported/low_poly_tank_to_scale.glb-d6f65958551144c92d821a09e341a767.scn"
 
 [deps]
 
-source_file="res://tanks/explosions/fire_decal.glb"
-dest_files=["res://.godot/imported/fire_decal.glb-2f8ecc4939e3f5eae53b13a18442cd63.scn"]
+source_file="res://tanks/3D/low_poly_tank/low_poly_tank_to_scale.glb"
+dest_files=["res://.godot/imported/low_poly_tank_to_scale.glb-d6f65958551144c92d821a09e341a767.scn"]
 
 [params]
 

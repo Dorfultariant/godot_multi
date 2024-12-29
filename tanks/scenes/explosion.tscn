@@ -1,0 +1,64 @@
+[gd_scene load_steps=8 format=3 uid="uid://bu7huvu0ek0ma"]
+
+[ext_resource type="Script" path="res://tanks/scripts/explosion.gd" id="1_u6hxg"]
+[ext_resource type="BoxMesh" uid="uid://b06r5lh4ud4f2" path="res://tanks/text_res/fire_explosion.tres" id="2_abuhn"]
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_43p6n"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_tkjin"]
+size = Vector3(0.197485, 0.0537842, 0.162939)
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_yo8f7"]
+angle_min = -60.0
+angle_max = 60.0
+velocity_pivot = Vector3(0.5, 0.5, 0.5)
+direction = Vector3(0, 1, 0)
+spread = 30.0
+initial_velocity_min = 3.0
+initial_velocity_max = 10.0
+gravity = Vector3(0, -5, 0)
+linear_accel_min = -2.23517e-06
+linear_accel_max = -2.23517e-06
+radial_accel_min = -2.23517e-06
+radial_accel_max = 3.0
+damping_max = 0.2
+scale_min = 0.5
+scale_max = 2.0
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_g38ms"]
+transparency = 1
+albedo_color = Color(0, 0, 0, 0.956863)
+
+[sub_resource type="BoxMesh" id="BoxMesh_jtabm"]
+material = SubResource("StandardMaterial3D_g38ms")
+size = Vector3(0.5, 0.5, 0.5)
+
+[node name="Explosion" type="StaticBody3D"]
+script = ExtResource("1_u6hxg")
+
+[node name="Area3D" type="Area3D" parent="."]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Area3D"]
+shape = SubResource("SphereShape3D_43p6n")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.000378413, 0.0290327, -0.00285645)
+shape = SubResource("BoxShape3D_tkjin")
+
+[node name="GPUParticles3D" type="GPUParticles3D" parent="."]
+amount = 25
+lifetime = 2.5
+explosiveness = 1.0
+process_material = SubResource("ParticleProcessMaterial_yo8f7")
+draw_pass_1 = SubResource("BoxMesh_jtabm")
+
+[node name="GPUParticles3D2" type="GPUParticles3D" parent="."]
+amount = 25
+lifetime = 2.5
+explosiveness = 1.0
+process_material = SubResource("ParticleProcessMaterial_yo8f7")
+draw_pass_1 = ExtResource("2_abuhn")
+
+[node name="Timer" type="Timer" parent="."]
+
+[connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]

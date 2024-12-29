@@ -4,7 +4,7 @@
 
 [resource]
 material = SubResource("StandardMaterial3D_gxnoq")
-radius = 0.025
-height = 0.05
-radial_segments = 12
+radius = 0.25
+height = 0.5
+radial_segments = 8
 rings = 5

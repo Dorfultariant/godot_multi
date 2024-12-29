@@ -1,91 +1,66 @@
 extends CharacterBody3D
 
+## Export variables (GUI configurable)
 @export_category("Player speed")
 @export_range(1, 5) var tank_gears : int = 3 # How many gears to simulate
-@export_range(0.1, 100.0) var speed_forward : float = 5.0
+@export_range(0.1, 100.0) var speed_forward : float = 4.0
 @export_range(0.1, 100.0) var speed_backward : float = 2.0
-@export_range(0.1, 100.0) var speed_turn_max : float = deg_to_rad(90)
-@export_range(0.1, 100.0) var speed_turn_min : float = deg_to_rad(15)
-@export_range(0.1, 100.0) var turbo_speed : float = speed_forward * 1.5
+@export_range(0.1, 100.0) var speed_turn_max : float = 90
+@export_range(0.1, 100.0) var speed_turn_min : float = 15
+@export_range(1.0, 10.0) var turbo_speed_mult : float = 1.5
 @export_range(0.1, 100.0) var speed_on_air : float = 0.0
 @export_range(0.1, 100.0) var acceleration : float = 1.2
 @export_range(0.1, 100.0) var acceleration_air : float = 1.0
-@export_range(0.1, 100.0) var deacceleration : float = acceleration * 4
+@export_range(0.1, 100.0) var deacceleration : float = 2.0
 
-# Variables
+## OnReady variables
+@onready var turret = $Turret
+
+## Internal variables
 var millis = 0
+var impulse_on_bodies : float = 1000.0
 var turbo_enabled : bool = false
 var keep_turret_fixed : bool = false
-var a : float = (speed_turn_max - speed_turn_min) / 2 # Amplitude
-var c : float = speed_forward**2
-var b : float = 2 * c # Period
+
+var max_velocity : float = 0
+var a : float = 0 # Amplitude
+var c : float = 0 # Mid point for turning max - min
+var b : float = 0 # Period
 
 
-# On-ready variables
-@onready var turret = $Turret
-@onready var turret_barrel = $Turret/MeshTurret/MeshTurret_Barrel
-@onready var weapon_spawn = $Turret/MeshTurret/MeshTurret_Barrel/Turret_Barrel_Pipe/RoundSpawn
-@onready var fp_cam = $"Turret/MeshTurret/MeshTurret_Barrel/1stPersonCam"
-@onready var tp_cam = $"Turret/MeshTurret/MeshTurret_Barrel/SpringArm3D/3rdPersonCam"
-@onready var fire_decal = $"Turret/MeshTurret/MeshTurret_Barrel/Turret_Barrel_Pipe/fire_decal"
-@onready var fire_decal_timer = $"Turret/MeshTurret/MeshTurret_Barrel/Turret_Barrel_Pipe/decal_timer"
+# Animation
+@onready var anim = $AnimationPlayer
 
-# PreLoads
-@export var weapon_1 : PackedScene = preload("res://tanks/explosions/tank_round.tscn")
-
+func _ready() -> void:
+	# Max velocity approximation
+	max_velocity = speed_forward * 1.0
+	a = (speed_turn_max - speed_turn_min) / 2 # Amplitude
+	b = 2 * max_velocity # At half period we are in low position, thus period needs to be twice our target max velocity
+	c = a + speed_turn_min # Our minimum turn speed when at max velocity.
+	#print("MaxVel: ", max_velocity)
+	#print("A: ", a)
+	#print("B: ", b)
+	#print("C: ", c)
+	
+	# From turret, when player fires there, we play tank's firing animation here.
+	turret.connect("player_fires", _on_player_fires) 
 
 func turn_speed_at_velocity(velocity_length: float) -> float:
 	# Follows function: a cos(2pi*velocity_length / b) + c
 	# Set the a, b and c first
-	if velocity_length >= c:
-		return speed_turn_min
-	elif velocity_length <= 0.1:
-		return speed_turn_max
-	else:
-		return clamp(a * cos((2 * PI * velocity_length) / (b)) + c, speed_turn_min, speed_turn_max)
-
-func _ready() -> void:
-	Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
-	fp_cam.current = true
-	tp_cam.current = false
-	
-	fire_decal_timer.timeout.connect(_on_timer_timeout)
-
-func _input(event: InputEvent) -> void:
-	if event.is_action_pressed("ui_cancel"):
-		Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
-		
-	if event is InputEventMouseMotion:
-		turret.rotation.y -= event.relative.x / Global.mouseXSensibility
-		turret_barrel.rotation.x -= -event.relative.y / Global.mouseYSensibility
-		turret_barrel.rotation.x = clamp(turret_barrel.rotation.x, deg_to_rad(-50),deg_to_rad(5))
-	
-	if event.is_action_released("player_toggle_camera"):
-		if fp_cam.current:
-			fp_cam.current = false
-			tp_cam.current = true
-		else:
-			tp_cam.current = false
-			fp_cam.current = true
-	if event.is_action_pressed("player_shoot"):
-		# Decal timer
-		fire_decal.set_visible(true)
-		if fire_decal_timer.is_stopped:
-			fire_decal_timer.wait_time = 0.2
-			fire_decal_timer.start()
-		else:
-			fire_decal_timer.wait_time = 0.2
-		
-		# Instantiate the shot tank round or weapon
-		var root_scene = get_tree().get_root()
-		var weapon_instance = weapon_1.instantiate()
-		weapon_instance.set_global_transform(weapon_spawn.get_global_transform())
-		root_scene.add_child(weapon_instance)
-
+	#if velocity_length >= c:
+		#return speed_turn_min
+	#elif velocity_length <= 0.1:
+		#return speed_turn_max
+	#else:
+		#
+	var new_turn_speed = a * cos((2 * PI * velocity_length) / (b)) + c
+	#print(new_turn_speed)
+	return clamp(new_turn_speed, speed_turn_min, speed_turn_max)
 
 func _physics_process(delta: float) -> void:
 	if not is_on_floor():
-		velocity += 10.0*Vector3.DOWN * delta;
+		velocity += Global.generalGravity * Vector3.DOWN * delta;
 	
 	# Turbo
 	if Input.is_action_pressed("player_turbo"):
@@ -94,25 +69,35 @@ func _physics_process(delta: float) -> void:
 		turbo_enabled = false
 	
 	# Movement
-	var input_dir : Vector2 = Vector2.ZERO
+	var input_dir : Vector2 = Vector2.ZERO # Used only for UP and DOWN (can be replaced with single int 
 	if Input.is_action_pressed("player_forward"):
 		input_dir = Vector2.UP
 	if Input.is_action_pressed("player_backward"):
 		input_dir = Vector2.DOWN
 	if Input.is_action_pressed("player_turn_left"):
 		var turn_speed : float = turn_speed_at_velocity(velocity.length())
-		print(turn_speed)
-		rotation.y += -input_dir.y * turn_speed * delta
+		turn_speed = deg_to_rad(turn_speed)
+		#print(velocity.length())
+		#print(turn_speed)
+		#print("Delta: ", delta)
+		
+		rotation.y += turn_speed * delta #rotation.y += -input_dir.y * turn_speed * delta
+		
+		# Keep turret from rotating
 		if not keep_turret_fixed:
-			turret.rotation.y -= -input_dir.y * turn_speed*delta
-		print(velocity.length_squared())
+			#turret.rotation.y -= -input_dir.y * turn_speed*delta
+			turret.rotation.y -= turn_speed * delta
 	if Input.is_action_pressed("player_turn_right"):
 		var turn_speed : float = turn_speed_at_velocity(velocity.length())
-		print(turn_speed)
-		rotation.y -= -input_dir.y * turn_speed * delta
+		turn_speed = deg_to_rad(turn_speed)
+		#print(velocity.length())
+		#print(turn_speed)
+		#rotation.y -= -input_dir.y * turn_speed * delta
+		rotation.y -= turn_speed * delta
+		# Keep turret from rotating
 		if not keep_turret_fixed:
-			turret.rotation.y += -input_dir.y * turn_speed*delta
-		print(velocity.length_squared())
+			#turret.rotation.y += -input_dir.y * turn_speed * delta
+			turret.rotation.y += turn_speed * delta
 		
 	var direction : Vector3
 	if turbo_enabled:
@@ -123,8 +108,8 @@ func _physics_process(delta: float) -> void:
 	# Velocity on direction
 	if direction:
 		if turbo_enabled:
-			velocity.x = lerp(velocity.x, direction.x * turbo_speed, acceleration * delta)
-			velocity.z = lerp(velocity.z, direction.z * turbo_speed, acceleration * delta)
+			velocity.x = lerp(velocity.x, direction.x * turbo_speed_mult * speed_forward, acceleration * delta)
+			velocity.z = lerp(velocity.z, direction.z * turbo_speed_mult * speed_forward, acceleration * delta)
 		else:
 			velocity.x = lerp(velocity.x, direction.x * speed_forward, acceleration * delta)
 			velocity.z = lerp(velocity.z, direction.z * speed_forward, acceleration * delta)
@@ -133,9 +118,33 @@ func _physics_process(delta: float) -> void:
 		velocity.x = lerp(velocity.x, 0.0, deacceleration * delta)
 		velocity.z = lerp(velocity.z, 0.0, deacceleration * delta)
 		
-	
+	# Move 
 	move_and_slide()
-
-func _on_timer_timeout():
 	
-	fire_decal.set_visible(false)
+	# Lastly add some pushing forces for the RigidBodies
+	push_pushables(delta)
+
+
+func push_pushables(delta: float) -> void:
+	var col := get_last_slide_collision()
+
+	if col:
+		var col_collider := col.get_collider()
+		var col_position := col.get_position()
+
+		if not col_collider is RigidBody3D:
+			return
+		
+		var push_direction := -col.get_normal()
+		var push_position = col_position - col_collider.global_position
+		col_collider.apply_impulse(push_direction * impulse_on_bodies * delta, push_position)
+		#print("Applied ", push_direction * 500 * delta, " impulse for ", col_collider)
+
+func _on_animation_finished(anim_name: StringName) -> void:
+	if anim_name == "idle_run":
+		anim.play("idle_run") # Loop
+	elif anim_name == "fire":
+		anim.play("idle_run")
+
+func _on_player_fires() -> void:
+	anim.play("fire")

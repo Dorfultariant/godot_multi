@@ -1,0 +1,35 @@
+[gd_scene load_steps=8 format=3 uid="uid://c8itddy2ndkr5"]
+
+[ext_resource type="Texture2D" uid="uid://cf1i7j17becjf" path="res://addons/kenney_prototype_textures/red/texture_01.png" id="1_dhrtw"]
+[ext_resource type="Texture2D" uid="uid://cvj7fo1gpunj6" path="res://addons/kenney_prototype_textures/purple/texture_12.png" id="2_lduie"]
+
+[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_plfem"]
+friction = 0.14
+bounce = 0.74
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_toxpg"]
+albedo_texture = ExtResource("1_dhrtw")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_nimwi"]
+albedo_texture = ExtResource("2_lduie")
+emission_enabled = true
+emission = Color(0.226707, 0.226707, 0.226707, 1)
+uv1_triplanar = true
+
+[sub_resource type="BoxMesh" id="BoxMesh_1ia2c"]
+material = SubResource("StandardMaterial3D_nimwi")
+size = Vector3(2, 2, 2)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_ngj1u"]
+size = Vector3(2, 2, 2)
+
+[node name="MoveableBox" type="RigidBody3D"]
+mass = 100.0
+physics_material_override = SubResource("PhysicsMaterial_plfem")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+material_override = SubResource("StandardMaterial3D_toxpg")
+mesh = SubResource("BoxMesh_1ia2c")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+shape = SubResource("BoxShape3D_ngj1u")

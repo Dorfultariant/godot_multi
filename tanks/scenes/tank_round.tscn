@@ -1,9 +1,10 @@
 [gd_scene load_steps=12 format=4 uid="uid://cvs3wmih65xc5"]
 
-[ext_resource type="Script" path="res://tanks/explosions/tank_round.gd" id="1_yy7vy"]
+[ext_resource type="Script" path="res://tanks/scripts/tank_round.gd" id="1_p6a53"]
 
 [sub_resource type="PhysicsMaterial" id="PhysicsMaterial_6dx7h"]
 friction = 0.5
+rough = true
 bounce = 0.2
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_xhnbr"]
@@ -47,8 +48,9 @@ _surfaces = [{
 blend_shape_mode = 0
 shadow_mesh = SubResource("ArrayMesh_2s7tj")
 
-[sub_resource type="SphereShape3D" id="SphereShape3D_pm8kf"]
-radius = 0.05
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_whjjl"]
+radius = 0.2
+height = 0.7
 
 [sub_resource type="Gradient" id="Gradient_tujua"]
 interpolation_mode = 2
@@ -59,8 +61,10 @@ colors = PackedColorArray(0.709498, 0.576981, 0.0163922, 1, 1, 0.113725, 0.03921
 gradient = SubResource("Gradient_tujua")
 
 [sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_188bh"]
-direction = Vector3(0, 1, 0)
-gravity = Vector3(0, -0.05, 0)
+direction = Vector3(0, 0, -1)
+spread = 14.639
+initial_velocity_max = 0.1
+gravity = Vector3(0, -0.1, 0)
 color = Color(1, 1, 0.184314, 1)
 color_ramp = SubResource("GradientTexture1D_1fds5")
 
@@ -69,26 +73,31 @@ albedo_color = Color(0.419813, 0.419813, 0.419813, 1)
 
 [sub_resource type="SphereMesh" id="SphereMesh_ee2rb"]
 material = SubResource("StandardMaterial3D_nb5qn")
-radius = 0.05
-height = 0.1
-radial_segments = 10
-rings = 6
+radius = 0.2
+height = 0.4
+radial_segments = 8
+rings = 5
 
 [node name="TankRound" type="RigidBody3D"]
+collision_layer = 2147483649
+collision_mask = 3221225473
 mass = 40.0
 physics_material_override = SubResource("PhysicsMaterial_6dx7h")
-script = ExtResource("1_yy7vy")
+contact_monitor = true
+max_contacts_reported = 3
+script = ExtResource("1_p6a53")
 
 [node name="Bullet_Shell_Shot" type="MeshInstance3D" parent="."]
-transform = Transform3D(0.123202, 0, 0, 0, 0, -0.123202, 0, 0.590251, 0, 0, 0, 0)
+transform = Transform3D(1, 0, 0, 0, -2.09684e-07, -1, 0, 4.797, -4.37114e-08, 0, 0, 0)
 mesh = SubResource("ArrayMesh_5iymn")
 skeleton = NodePath("")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
-shape = SubResource("SphereShape3D_pm8kf")
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, -0.110494)
+shape = SubResource("CapsuleShape3D_whjjl")
 
 [node name="GPUParticles3D" type="GPUParticles3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.0800149)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.406253)
 amount = 50
 lifetime = 4.0
 process_material = SubResource("ParticleProcessMaterial_188bh")

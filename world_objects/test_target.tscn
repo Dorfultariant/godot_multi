@@ -1,4 +1,4 @@
-[gd_scene load_steps=5 format=3 uid="uid://h2pbny6v8bqa"]
+[gd_scene load_steps=6 format=3 uid="uid://h2pbny6v8bqa"]
 
 [ext_resource type="Texture2D" uid="uid://d0ame4y8gasj0" path="res://addons/kenney_prototype_textures/orange/texture_10.png" id="1_lm4o5"]
 
@@ -12,7 +12,11 @@ bottom_radius = 2.0
 height = 0.1
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_bkbjp"]
-size = Vector3(4, 4, 0.2)
+size = Vector3(2, 0.5, 0.5)
+
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_lbjrl"]
+height = 0.3
+radius = 2.0
 
 [node name="TestTarget" type="StaticBody3D"]
 
@@ -22,5 +26,11 @@ material_override = SubResource("StandardMaterial3D_nqbcn")
 mesh = SubResource("CylinderMesh_ttc7o")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0689697, 0.192139, -0.00985106)
 shape = SubResource("BoxShape3D_bkbjp")
+
+[node name="Area3D" type="Area3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 2.01845, 0)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Area3D"]
+shape = SubResource("CylinderShape3D_lbjrl")

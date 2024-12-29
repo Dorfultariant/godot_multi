@@ -1,7 +1,7 @@
-[gd_scene load_steps=16 format=4 uid="uid://bxyvaorn1ywsm"]
+[gd_scene load_steps=16 format=4 uid="uid://bvtp00ulw63sw"]
 
 [ext_resource type="Script" path="res://tanks/scripts/player_low_poly_tank.gd" id="1_dwiox"]
-[ext_resource type="PackedScene" uid="uid://dsl3jg7rfalqj" path="res://tanks/3D/low_poly_tank/turret.tscn" id="2_a52ho"]
+[ext_resource type="PackedScene" uid="uid://dabsa6xckq8f" path="res://tanks/3D/low_poly_tank/turret.tscn" id="2_a52ho"]
 [ext_resource type="Script" path="res://tanks/scripts/run_particles.gd" id="3_0s2cd"]
 [ext_resource type="SphereMesh" uid="uid://cq8t5xrmk00wb" path="res://tanks/text_res/dust_particle.tres" id="3_ftcp4"]
 
