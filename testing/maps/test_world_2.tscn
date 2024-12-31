@@ -32,7 +32,7 @@ directional_shadow_fade_start = 0.286
 [node name="CSG_test_map" parent="." instance=ExtResource("1_oxkc1")]
 
 [node name="IFV" parent="." instance=ExtResource("2_5s5yb")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 6.57979, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 20.0104, 30.2729)
 
 [node name="MoveableBall" parent="." instance=ExtResource("2_ddv1k")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5.58475, 8.36762, -2.3872)

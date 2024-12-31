@@ -2,7 +2,7 @@
 
 [ext_resource type="PackedScene" uid="uid://byvdsbga2hwgp" path="res://testing/maps/csg_test_map.tscn" id="1_5asj7"]
 [ext_resource type="PackedScene" uid="uid://bttul5nfsstyl" path="res://world_objects/moveable_ball.tscn" id="3_fbv1k"]
-[ext_resource type="PackedScene" uid="uid://cowueh2exk28h" path="res://tanks/3D/low_poly_tank/player_tank.tscn" id="3_jmxqu"]
+[ext_resource type="PackedScene" uid="uid://r0okwn05cltu" path="res://tanks/scenes/ifv.tscn" id="3_u5vx5"]
 [ext_resource type="PackedScene" uid="uid://c8itddy2ndkr5" path="res://world_objects/moveable_box.tscn" id="4_63j3g"]
 [ext_resource type="PackedScene" uid="uid://b01jfv3kj6v2m" path="res://tanks/scenes/target_tank.tscn" id="5_ftdnj"]
 
@@ -49,8 +49,8 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 23.7755, 8.36762, -123.841)
 [node name="MoveableBall6" parent="." instance=ExtResource("3_fbv1k")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 21.8604, 8.36762, -82.5641)
 
-[node name="LowPolyTank" parent="." instance=ExtResource("3_jmxqu")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 4, 0)
+[node name="IFV" parent="." instance=ExtResource("3_u5vx5")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 19.4099, -27)
 
 [node name="MoveableBall7" parent="." instance=ExtResource("3_fbv1k")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 30.6664, 0)
