@@ -1,7 +1,7 @@
 [gd_scene load_steps=6 format=3 uid="uid://jtjjt0ejpiyl"]
 
 [ext_resource type="PackedScene" uid="uid://byvdsbga2hwgp" path="res://testing/maps/csg_test_map.tscn" id="1_5asj7"]
-[ext_resource type="PackedScene" uid="uid://bvtp00ulw63sw" path="res://tanks/3D/low_poly_tank/player_low_poly_tank.tscn" id="2_44bem"]
+[ext_resource type="PackedScene" uid="uid://d3y7g0s74vtf4" path="res://tanks/3D/ifv/ifv.tscn" id="2_8eh8a"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_ar71t"]
 sky_horizon_color = Color(0.64625, 0.65575, 0.67075, 1)
@@ -28,8 +28,8 @@ directional_shadow_fade_start = 0.286
 
 [node name="CSG_test_map" parent="." instance=ExtResource("1_5asj7")]
 
-[node name="LowPolyTank" parent="." instance=ExtResource("2_44bem")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 7.01919, 0)
+[node name="IFV" parent="." instance=ExtResource("2_8eh8a")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 10, 17)
 
 [node name="Spawn_Root" type="Node" parent="."]
 

@@ -1,0 +1,55 @@
+[gd_scene load_steps=9 format=3 uid="uid://d3y7g0s74vtf4"]
+
+[ext_resource type="Script" path="res://tanks/scripts/ifv.gd" id="1_pk1u7"]
+[ext_resource type="PackedScene" uid="uid://y48kqwja7xke" path="res://tanks/3D/ifv/IFV_hull.blend" id="2_sw8nt"]
+[ext_resource type="PackedScene" uid="uid://ikefqnfqbwbu" path="res://tanks/3D/ifv/IFV_wheels.blend" id="3_lltwk"]
+[ext_resource type="PackedScene" uid="uid://bk7ti8wniwj1a" path="res://tanks/3D/ifv/IFV_tower.blend" id="4_mb0yf"]
+[ext_resource type="PackedScene" uid="uid://rve3wvhmnwsc" path="res://tanks/3D/ifv/IFV_main_turret.blend" id="5_78dkv"]
+[ext_resource type="PackedScene" uid="uid://dxyef1rwo64v3" path="res://tanks/UI/player_ui.tscn" id="6_efgpo"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_4s4ru"]
+size = Vector3(5, 2, 15)
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_2gp7g"]
+radius = 2.0
+
+[node name="IFV" type="CharacterBody3D"]
+script = ExtResource("1_pk1u7")
+
+[node name="Collision_box" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.835508, -0.560871)
+shape = SubResource("BoxShape3D_4s4ru")
+
+[node name="Collision_ball" type="CollisionShape3D" parent="."]
+shape = SubResource("SphereShape3D_2gp7g")
+
+[node name="IFV_hull" parent="." instance=ExtResource("2_sw8nt")]
+
+[node name="IFV_wheels" parent="IFV_hull" instance=ExtResource("3_lltwk")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -1.43425)
+
+[node name="IFV_tower" parent="." instance=ExtResource("4_mb0yf")]
+
+[node name="IFV_main_turret" parent="IFV_tower" instance=ExtResource("5_78dkv")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.51369, -1.60513)
+
+[node name="Aim_ray" type="RayCast3D" parent="IFV_tower/IFV_main_turret"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -7.89889)
+target_position = Vector3(0, 0, -1000)
+
+[node name="Projectile_spawn" type="Marker3D" parent="IFV_tower/IFV_main_turret"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -7.8939)
+
+[node name="Camera3D" type="Camera3D" parent="IFV_tower"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.717765, 3.2119, -1.7606)
+
+[node name="Third_Person_Camera" type="Camera3D" parent="IFV_tower"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 4.61562, 5.16283)
+
+[node name="Reload_timer" type="Timer" parent="."]
+wait_time = 0.1
+one_shot = true
+
+[node name="Player_UI" parent="." instance=ExtResource("6_efgpo")]
+
+[connection signal="timeout" from="Reload_timer" to="." method="_on_reload_ready_timeout"]
