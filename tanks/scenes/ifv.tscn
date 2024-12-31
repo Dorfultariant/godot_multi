@@ -1,10 +1,11 @@
-[gd_scene load_steps=8 format=3 uid="uid://r0okwn05cltu"]
+[gd_scene load_steps=9 format=3 uid="uid://r0okwn05cltu"]
 
 [ext_resource type="PackedScene" uid="uid://dnvuwc2vhqmke" path="res://tanks/3D/ifv/IFV_hull.blend" id="1_2j7vm"]
-[ext_resource type="Script" path="res://tanks/scripts/s.gd" id="1_4qxlt"]
+[ext_resource type="Script" path="res://tanks/scripts/ifv.gd" id="1_4qxlt"]
 [ext_resource type="PackedScene" uid="uid://cuqnpjb5wbju7" path="res://tanks/3D/ifv/IFV_wheels.blend" id="2_bv2fi"]
 [ext_resource type="PackedScene" uid="uid://ccr0wqpf82ns1" path="res://tanks/3D/ifv/IFV_tower.blend" id="3_cpeya"]
 [ext_resource type="PackedScene" uid="uid://dmdymlgsiklgn" path="res://tanks/3D/ifv/IFV_main_turret.blend" id="4_4mbry"]
+[ext_resource type="PackedScene" uid="uid://xvjgenrkq2w5" path="res://tanks/ui/player_ui.tscn" id="6_wxrxy"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_48sjp"]
 size = Vector3(5, 2, 15)
@@ -33,8 +34,22 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -1.307)
 [node name="IFV_main_turret" parent="IFV_tower" instance=ExtResource("4_4mbry")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.56334, -1.55631)
 
+[node name="Projectile_spawn" type="Marker3D" parent="IFV_tower/IFV_main_turret"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -7.92988)
+
+[node name="Aim_ray" type="RayCast3D" parent="IFV_tower/IFV_main_turret"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.330412)
+target_position = Vector3(0, 0, -1000)
+
 [node name="First_cam" type="Camera3D" parent="IFV_tower"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.678626, 3.07778, -2.13563)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.678626, 3.35084, -1.85852)
 
 [node name="Third_cam" type="Camera3D" parent="IFV_tower"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 5.12778, 6.02207)
+
+[node name="Reload_timer" type="Timer" parent="."]
+one_shot = true
+
+[node name="Player_UI" parent="." instance=ExtResource("6_wxrxy")]
+
+[connection signal="timeout" from="Reload_timer" to="." method="_on_reload_timer_timeout"]
