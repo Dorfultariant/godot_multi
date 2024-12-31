@@ -14,8 +14,9 @@ func took_damage(given_damage : float) -> void:
 		health -= given_damage
 
 func _on_animation_finished(anim_name: StringName) -> void:
-	timer.wait_time = linger_after_death
-	timer.start()
+	if anim_name == "kill_explosion_1":
+		timer.wait_time = linger_after_death
+		timer.start()
 
 func _on_timer_timeout() -> void:
 	queue_free()

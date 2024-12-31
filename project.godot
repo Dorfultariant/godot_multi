@@ -92,6 +92,10 @@ player_toggle_camera={
 ]
 }
 
+[physics]
+
+3d/physics_engine="JoltPhysics3D"
+
 [rendering]
 
 renderer/rendering_method="mobile"

@@ -15,6 +15,8 @@ extends CharacterBody3D
 
 ## OnReady variables
 @onready var turret = $Turret
+@onready var ground_front_ray = $GroundFrontRay
+@onready var ground_back_ray = $GroundBackRay
 
 ## Internal variables
 var millis = 0
@@ -120,10 +122,20 @@ func _physics_process(delta: float) -> void:
 		
 	# Move 
 	move_and_slide()
-	
+	point_to_ground(delta)
 	# Lastly add some pushing forces for the RigidBodies
 	push_pushables(delta)
 
+func point_to_ground(delta: float) -> void:
+	var n = (ground_front_ray.get_collision_normal() + ground_back_ray.get_collision_normal()) / 2.0
+	var xform = align_with_y(global_transform, n)
+	global_transform = global_transform.interpolate_with(xform, 12.0 * delta).orthonormalized()
+
+func align_with_y(xform, new_y):
+	xform.basis.y = new_y
+	xform.basis.x = -xform.basis.z.cross(new_y)
+	xform.basis = xform.basis.orthonormalized()
+	return xform.orthonormalized()
 
 func push_pushables(delta: float) -> void:
 	var col := get_last_slide_collision()
