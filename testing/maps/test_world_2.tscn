@@ -1,0 +1,72 @@
+[gd_scene load_steps=9 format=3 uid="uid://bcndamgh1i3oe"]
+
+[ext_resource type="PackedScene" uid="uid://byvdsbga2hwgp" path="res://testing/maps/csg_test_map.tscn" id="1_oxkc1"]
+[ext_resource type="PackedScene" uid="uid://r0okwn05cltu" path="res://tanks/scenes/ifv.tscn" id="2_5s5yb"]
+[ext_resource type="PackedScene" uid="uid://bttul5nfsstyl" path="res://world_objects/moveable_ball.tscn" id="2_ddv1k"]
+[ext_resource type="PackedScene" uid="uid://c8itddy2ndkr5" path="res://world_objects/moveable_box.tscn" id="4_sh3ci"]
+[ext_resource type="PackedScene" uid="uid://b01jfv3kj6v2m" path="res://tanks/scenes/target_tank.tscn" id="5_s5erb"]
+
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_ar71t"]
+sky_horizon_color = Color(0.64625, 0.65575, 0.67075, 1)
+ground_horizon_color = Color(0.64625, 0.65575, 0.67075, 1)
+
+[sub_resource type="Sky" id="Sky_sik1j"]
+sky_material = SubResource("ProceduralSkyMaterial_ar71t")
+
+[sub_resource type="Environment" id="Environment_g5q05"]
+background_mode = 2
+sky = SubResource("Sky_sik1j")
+tonemap_mode = 2
+glow_enabled = true
+
+[node name="TestWorld1" type="Node3D"]
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_g5q05")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(-0.866025, -0.433013, 0.25, 0, 0.5, 0.866025, -0.5, 0.75, -0.433013, 0, 0, 0)
+shadow_enabled = true
+directional_shadow_fade_start = 0.286
+
+[node name="CSG_test_map" parent="." instance=ExtResource("1_oxkc1")]
+
+[node name="IFV" parent="." instance=ExtResource("2_5s5yb")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 6.57979, 0)
+
+[node name="MoveableBall" parent="." instance=ExtResource("2_ddv1k")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5.58475, 8.36762, -2.3872)
+
+[node name="MoveableBall2" parent="." instance=ExtResource("2_ddv1k")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5.58475, 8.36762, -14.9344)
+
+[node name="MoveableBall3" parent="." instance=ExtResource("2_ddv1k")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 58.2654, 8.36762, -2.3872)
+
+[node name="MoveableBall4" parent="." instance=ExtResource("2_ddv1k")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 46.3602, 8.36762, -56.2472)
+
+[node name="MoveableBall5" parent="." instance=ExtResource("2_ddv1k")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 23.7755, 8.36762, -123.841)
+
+[node name="MoveableBall6" parent="." instance=ExtResource("2_ddv1k")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 21.8604, 8.36762, -82.5641)
+
+[node name="MoveableBall7" parent="." instance=ExtResource("2_ddv1k")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 30.6664, 0)
+mass = 120.0
+
+[node name="MoveableBox" parent="." instance=ExtResource("4_sh3ci")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -12.1901, 14.8174, -19.268)
+
+[node name="MoveableBox2" parent="." instance=ExtResource("4_sh3ci")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 28.8772, 6.69756, -50.9179)
+
+[node name="MoveableBox3" parent="." instance=ExtResource("4_sh3ci")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.27734, 5.87415, -18.7157)
+
+[node name="TargetTank" parent="." instance=ExtResource("5_s5erb")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -43.9272, 2.5, -23.3952)
+
+[node name="TargetTank2" parent="." instance=ExtResource("5_s5erb")]
+transform = Transform3D(-0.665009, 0, 0.746836, 0, 1, 0, -0.746836, 0, -0.665009, 12.5035, 2.5, -64.215)

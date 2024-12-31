@@ -1,0 +1,40 @@
+[gd_scene load_steps=8 format=3 uid="uid://r0okwn05cltu"]
+
+[ext_resource type="PackedScene" uid="uid://dnvuwc2vhqmke" path="res://tanks/3D/ifv/IFV_hull.blend" id="1_2j7vm"]
+[ext_resource type="Script" path="res://tanks/scripts/s.gd" id="1_4qxlt"]
+[ext_resource type="PackedScene" uid="uid://cuqnpjb5wbju7" path="res://tanks/3D/ifv/IFV_wheels.blend" id="2_bv2fi"]
+[ext_resource type="PackedScene" uid="uid://ccr0wqpf82ns1" path="res://tanks/3D/ifv/IFV_tower.blend" id="3_cpeya"]
+[ext_resource type="PackedScene" uid="uid://dmdymlgsiklgn" path="res://tanks/3D/ifv/IFV_main_turret.blend" id="4_4mbry"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_48sjp"]
+size = Vector3(5, 2, 15)
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_3ch6p"]
+radius = 2.0
+
+[node name="IFV" type="CharacterBody3D"]
+script = ExtResource("1_4qxlt")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.976511, -0.488256)
+shape = SubResource("BoxShape3D_48sjp")
+
+[node name="CollisionShape3D2" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -4.76837e-07, -1.90735e-06)
+shape = SubResource("SphereShape3D_3ch6p")
+
+[node name="IFV_hull" parent="." instance=ExtResource("1_2j7vm")]
+
+[node name="IFV_wheels" parent="IFV_hull" instance=ExtResource("2_bv2fi")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -1.307)
+
+[node name="IFV_tower" parent="." instance=ExtResource("3_cpeya")]
+
+[node name="IFV_main_turret" parent="IFV_tower" instance=ExtResource("4_4mbry")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.56334, -1.55631)
+
+[node name="First_cam" type="Camera3D" parent="IFV_tower"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.678626, 3.07778, -2.13563)
+
+[node name="Third_cam" type="Camera3D" parent="IFV_tower"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 5.12778, 6.02207)
