@@ -3,7 +3,7 @@
 [ext_resource type="PackedScene" uid="uid://byvdsbga2hwgp" path="res://testing/maps/csg_test_map.tscn" id="1_oxkc1"]
 [ext_resource type="PackedScene" uid="uid://bttul5nfsstyl" path="res://world_objects/moveable_ball.tscn" id="2_ddv1k"]
 [ext_resource type="PackedScene" uid="uid://c8itddy2ndkr5" path="res://world_objects/moveable_box.tscn" id="4_sh3ci"]
-[ext_resource type="PackedScene" uid="uid://cagqi6qrybj52" path="res://tanks/scenes/vehicle_body_tank.tscn" id="5_hhmbf"]
+[ext_resource type="PackedScene" uid="uid://by5thtmi14f7a" path="res://tanks/scenes/vehicle_body_tank.tscn" id="5_hhmbf"]
 [ext_resource type="PackedScene" uid="uid://b01jfv3kj6v2m" path="res://tanks/scenes/target_tank.tscn" id="5_s5erb"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_ar71t"]
@@ -19,7 +19,7 @@ sky = SubResource("Sky_sik1j")
 tonemap_mode = 2
 glow_enabled = true
 
-[node name="TestWorld1" type="Node3D"]
+[node name="TestWorld2" type="Node3D"]
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = SubResource("Environment_g5q05")

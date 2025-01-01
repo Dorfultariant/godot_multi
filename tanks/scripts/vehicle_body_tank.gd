@@ -6,8 +6,8 @@ var RightTrackWheels : Array = []
 ## Export variables (GUI configurable)
 @export_category("Player speed")
 @export_range(1, 5) var tank_gears : int = 3 # How many gears to simulate
-@export_range(0.1, 100.0) var speed_forward : float = 2500.0
-@export_range(0.1, 100.0) var speed_backward : float = 2000.0
+@export_range(100, 10000.0) var speed_forward : float = 2500.0
+@export_range(100, 10000.0) var speed_backward : float = 2000.0
 @export_range(0.1, 100.0) var speed_turn_max : float = 90
 @export_range(0.1, 100.0) var speed_turn_min : float = 15
 @export_range(1.0, 10.0) var turbo_speed_mult : float = 1.5
