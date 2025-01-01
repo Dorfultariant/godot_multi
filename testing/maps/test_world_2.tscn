@@ -1,9 +1,9 @@
 [gd_scene load_steps=9 format=3 uid="uid://bcndamgh1i3oe"]
 
 [ext_resource type="PackedScene" uid="uid://byvdsbga2hwgp" path="res://testing/maps/csg_test_map.tscn" id="1_oxkc1"]
-[ext_resource type="PackedScene" uid="uid://r0okwn05cltu" path="res://tanks/scenes/ifv.tscn" id="2_5s5yb"]
 [ext_resource type="PackedScene" uid="uid://bttul5nfsstyl" path="res://world_objects/moveable_ball.tscn" id="2_ddv1k"]
 [ext_resource type="PackedScene" uid="uid://c8itddy2ndkr5" path="res://world_objects/moveable_box.tscn" id="4_sh3ci"]
+[ext_resource type="PackedScene" uid="uid://cagqi6qrybj52" path="res://tanks/scenes/vehicle_body_tank.tscn" id="5_hhmbf"]
 [ext_resource type="PackedScene" uid="uid://b01jfv3kj6v2m" path="res://tanks/scenes/target_tank.tscn" id="5_s5erb"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_ar71t"]
@@ -30,9 +30,6 @@ shadow_enabled = true
 directional_shadow_fade_start = 0.286
 
 [node name="CSG_test_map" parent="." instance=ExtResource("1_oxkc1")]
-
-[node name="IFV" parent="." instance=ExtResource("2_5s5yb")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 20.0104, 30.2729)
 
 [node name="MoveableBall" parent="." instance=ExtResource("2_ddv1k")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5.58475, 8.36762, -2.3872)
@@ -70,3 +67,6 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -43.9272, 2.5, -23.3952)
 
 [node name="TargetTank2" parent="." instance=ExtResource("5_s5erb")]
 transform = Transform3D(-0.665009, 0, 0.746836, 0, 1, 0, -0.746836, 0, -0.665009, 12.5035, 2.5, -64.215)
+
+[node name="VehicleBodyTank" parent="." instance=ExtResource("5_hhmbf")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -32, 7, 0)

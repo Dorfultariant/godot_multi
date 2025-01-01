@@ -23,6 +23,6 @@ radius = 998.0
 height = 49.0
 
 [node name="CSGPolygon3D" type="CSGPolygon3D" parent="."]
-transform = Transform3D(-0.160519, 0, -0.987033, 0, 1, 0, 0.987033, 0, -0.160519, 0, -22.4162, -57.3436)
-polygon = PackedVector2Array(0, 0, -0.0140959, 1.41533, 3.59354, -0.0262451, 0.538031, 0.00158691)
-depth = 10.0
+transform = Transform3D(-0.0104198, 0, -0.999946, 0, 1, 0, 0.999946, 0, -0.0104198, 0, -22.5087, -57.3436)
+polygon = PackedVector2Array(-60, 0, -37, 9, 3.594, 0, 0.538, 0)
+depth = 30.0
