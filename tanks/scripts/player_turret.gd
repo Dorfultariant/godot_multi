@@ -7,7 +7,7 @@ extends StaticBody3D
 
 # Tank turret (player movement)
 @onready var turret_barrel = $MeshTurret/MeshBarrel
-
+@onready var pipe = $MeshTurret/MeshBarrel/MeshBarrelPipe
 # Weapon related
 @onready var weapon_spawn = $MeshTurret/MeshBarrel/MeshBarrelPipe/RoundSpawn
 @onready var fire_decal = $MeshTurret/MeshBarrel/MeshBarrelPipe/fire_decal
@@ -52,8 +52,18 @@ func _input(event: InputEvent) -> void:
 		if can_shoot:
 			emit_signal("player_fires")
 			# Add a wait time (animation time)
-			can_shoot = false
+			# Tween implementation
 			anim.play("fire")
+			#var fire_tween = get_tree().create_tween()
+			#fire_tween.tween_property(pipe, "position", Vector3(pipe.position.x, pipe.position.y, pipe.position.z+0.25), 0.1)
+			#fire_tween.tween_property(pipe, "position", pipe.position, 0.1)
+			
+			var barrel_tween = get_tree().create_tween()
+			var mid_anim_point = Vector3(turret_barrel.rotation.x - deg_to_rad(5), turret_barrel.rotation.y, turret_barrel.rotation.z)
+			barrel_tween.tween_property(turret_barrel, "rotation", mid_anim_point, 0.1)
+			barrel_tween.tween_property(turret_barrel, "rotation", turret_barrel.rotation, 0.1)
+			can_shoot = false
+			
 			
 			# Instantiate the shot tank round or weapon
 			var root_scene = get_tree().get_root()

@@ -79,8 +79,8 @@ radial_segments = 8
 rings = 5
 
 [node name="TankRound" type="RigidBody3D"]
-collision_layer = 2147483649
-collision_mask = 3221225473
+collision_layer = 3
+collision_mask = 15
 mass = 40.0
 physics_material_override = SubResource("PhysicsMaterial_6dx7h")
 contact_monitor = true
