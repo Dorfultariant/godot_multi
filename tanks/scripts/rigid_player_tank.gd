@@ -31,7 +31,7 @@ var b : float = 0 # Period
 
 
 # Animation
-@onready var anim = $AnimationPlayer
+#@onready var anim = $AnimationPlayer
 
 func _ready() -> void:
 	# Max velocity approximation

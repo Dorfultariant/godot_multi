@@ -1,6 +1,7 @@
 extends Node3D
 
 @export var PlayerScene : PackedScene = preload("res://tanks/scenes/ifv.tscn")
+#@export var PlayerScene : PackedScene = preload("res://tanks/3D/low_poly_tank/player_low_poly_tank.tscn")
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:

@@ -78,25 +78,25 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -12.6042, 17.1414, -92.8314)
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -127, 15, 53.0171)
 
 [node name="2" type="Node3D" parent="Spawn_points" groups=["Player_spawn_grp"]]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -127, 15, 53.0171)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -127, 15, 148.191)
 
 [node name="3" type="Node3D" parent="Spawn_points" groups=["Player_spawn_grp"]]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -127, 15, 53.0171)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -127, 15, -79.4893)
 
 [node name="4" type="Node3D" parent="Spawn_points" groups=["Player_spawn_grp"]]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -127, 15, 53.0171)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -245.626, 15, 53.0171)
 
 [node name="5" type="Node3D" parent="Spawn_points" groups=["Player_spawn_grp"]]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -127, 15, 53.0171)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -231.992, 15, 129.786)
 
 [node name="6" type="Node3D" parent="Spawn_points" groups=["Player_spawn_grp"]]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -127, 15, 53.0171)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -127, 15, 95.8349)
 
 [node name="7" type="Node3D" parent="Spawn_points" groups=["Player_spawn_grp"]]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -127, 15, 53.0171)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -127, 15, -122.952)
 
 [node name="8" type="Node3D" parent="Spawn_points" groups=["Player_spawn_grp"]]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -127, 15, 53.0171)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -127, 15, -319.76)
 
 [node name="9" type="Node3D" parent="Spawn_points" groups=["Player_spawn_grp"]]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -127, 15, 53.0171)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 110.061, 15, 53.0171)
