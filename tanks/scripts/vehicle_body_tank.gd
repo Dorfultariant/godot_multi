@@ -17,7 +17,7 @@ var RightTrackWheels : Array = []
 @export_range(0.1, 100.0) var deacceleration : float = 2.0
 
 var spring_max_force : float = get_mass() * 2
-var spring_stiffness : float = 20.0
+var spring_stiffness : float = 10.0
 var spring_damping_compression = 0.5
 var spring_damping_relaxation = 1.0
 var spring_travel : float = 0.15
@@ -117,13 +117,21 @@ func _physics_process(delta: float) -> void:
 		for wheel in RightTrackWheels:
 			wheel.engine_force = -speed_backward
 			wheel.brake = 0.0
-	else:
+	else: # Brake
 		for wheel in LeftTrackWheels:
 			wheel.engine_force = 0.0
-			wheel.brake = lerp(wheel.brake, speed_backward, delta * deacceleration)
+			# Front and Rear wheels should have less brake power
+			if wheel.name == "LFWheel" || wheel.name == "LRWheel":
+				wheel.brake = lerp(wheel.brake, 0.2*speed_backward, delta * deacceleration)
+			else:
+				wheel.brake = lerp(wheel.brake, 0.2*speed_backward, delta * deacceleration)
 		for wheel in RightTrackWheels:
 			wheel.engine_force = 0.0
-			wheel.brake = lerp(wheel.brake, speed_backward, delta * deacceleration)
+			# Front and Rear wheels should have less brake power
+			if wheel.name == "RFWheel" || wheel.name == "RRWheel":
+				wheel.brake = lerp(wheel.brake, 0.2*speed_backward, delta * deacceleration) 
+			else:
+				wheel.brake = lerp(wheel.brake, 0.2*speed_backward, delta * deacceleration)
 	
 	if Input.is_action_pressed("player_turn_left"):
 		for wheel in LeftTrackWheels:
