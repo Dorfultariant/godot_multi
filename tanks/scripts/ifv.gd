@@ -22,19 +22,31 @@ const MAIN_GUN_MAX_LOWER_ANGLE : float = -10.0
 @onready var reticle : Control = $Player_UI/Reticle
 @onready var reload_text : Control = $Player_UI/TimerCenter/Reload
 
+@onready var mult_sync : MultiplayerSynchronizer = $MultiplayerSynchronizer
+
+
 # Runtime Variables:
 var accumulated_speed : float = 0.0
 var is_reloaded : bool = false
 var acc_rot_x : float = 0.0
 
 func _ready() -> void:
+	mult_sync.set_multiplayer_authority(str(name).to_int())	
+	
+	if mult_sync.get_multiplayer_authority() != multiplayer.get_unique_id():
+		print("No match: ", name)
+		return
+	
 	first_person_cam.make_current()
-	Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
+	#Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
 	reticle.modulate = Color.RED
 	reload_timer.start()
 
 
 func _process(delta: float) -> void:
+	if mult_sync.get_multiplayer_authority() != multiplayer.get_unique_id():
+		return
+		
 	if Input.is_action_pressed("player_shoot"):
 		if is_reloaded:
 			fire()
@@ -42,6 +54,9 @@ func _process(delta: float) -> void:
 
 
 func _physics_process(delta: float) -> void:
+	if mult_sync.get_multiplayer_authority() != multiplayer.get_unique_id():
+		return
+		
 	# Add the gravity.
 	if not is_on_floor():
 		velocity += get_gravity() * delta
@@ -57,12 +72,15 @@ func _physics_process(delta: float) -> void:
 			accumulated_speed *= DEACCELERATION
 		else:
 			accumulated_speed = 0
-		print(accumulated_speed)
+		#print(accumulated_speed)
 	#accumulated_speed = clamp(accumulated_speed, MAX_REVERSE_SPEED, MAX_FORWARD_SPEED)
 	translate(Vector3(0, 0, accumulated_speed))
 	move_and_slide()
 
 func _input(event: InputEvent) -> void:
+	if mult_sync.get_multiplayer_authority() != multiplayer.get_unique_id():
+		return
+		
 	# Handle mouse cursor capturing and release
 	if event is InputEventMouseButton:
 		Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
@@ -107,5 +125,7 @@ func fire() -> void:
 	
 
 func _on_reload_timer_timeout() -> void:
+	if mult_sync.get_multiplayer_authority() != multiplayer.get_unique_id():
+		pass
 	is_reloaded = true
 	reticle.modulate = Color.WHITE

@@ -1,5 +1,6 @@
-[gd_scene load_steps=2 format=3 uid="uid://bdyh2in884leb"]
+[gd_scene load_steps=3 format=3 uid="uid://bdyh2in884leb"]
 
+[ext_resource type="Script" path="res://MainMenu_UI/mm_man_network_ui.gd" id="1_44fmi"]
 [ext_resource type="Texture2D" uid="uid://bgwr2624um2eo" path="res://addons/kenney_prototype_textures/dark/texture_08.png" id="1_lmbi6"]
 
 [node name="Network_UI" type="Control"]
@@ -9,6 +10,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+script = ExtResource("1_44fmi")
 
 [node name="BG_img" type="TextureRect" parent="."]
 layout_mode = 1
@@ -48,6 +50,15 @@ theme_override_constants/h_separation = 10
 theme_override_constants/v_separation = 10
 columns = 2
 
+[node name="LName" type="Label" parent="PanelContainer/MarginContainer/GridContainer"]
+layout_mode = 2
+text = "Name:"
+
+[node name="Nametag" type="LineEdit" parent="PanelContainer/MarginContainer/GridContainer"]
+layout_mode = 2
+placeholder_text = "Username"
+expand_to_text_length = true
+
 [node name="LAddress" type="Label" parent="PanelContainer/MarginContainer/GridContainer"]
 layout_mode = 2
 text = "IP:"
@@ -75,3 +86,11 @@ text = "Create Server"
 [node name="BJoin_Server" type="Button" parent="PanelContainer/MarginContainer/GridContainer"]
 layout_mode = 2
 text = "Join Server"
+
+[node name="Start_game" type="Button" parent="PanelContainer/MarginContainer/GridContainer"]
+layout_mode = 2
+text = "Start Game"
+
+[connection signal="pressed" from="PanelContainer/MarginContainer/GridContainer/BCreate_Server" to="." method="_on_b_create_server_pressed"]
+[connection signal="pressed" from="PanelContainer/MarginContainer/GridContainer/BJoin_Server" to="." method="_on_b_join_server_pressed"]
+[connection signal="pressed" from="PanelContainer/MarginContainer/GridContainer/Start_game" to="." method="_on_start_game_pressed"]
