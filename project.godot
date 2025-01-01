@@ -24,6 +24,10 @@ Global="*res://share/globals.gd"
 window/size/viewport_width=1600
 window/size/viewport_height=800
 
+[global_group]
+
+Player_spawn_grp=""
+
 [input]
 
 player_forward={

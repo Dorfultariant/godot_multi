@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=3 uid="uid://r0okwn05cltu"]
+[gd_scene load_steps=10 format=3 uid="uid://r0okwn05cltu"]
 
 [ext_resource type="PackedScene" uid="uid://dnvuwc2vhqmke" path="res://tanks/3D/ifv/IFV_hull.blend" id="1_2j7vm"]
 [ext_resource type="Script" path="res://tanks/scripts/ifv.gd" id="1_4qxlt"]
@@ -12,6 +12,17 @@ size = Vector3(5, 2, 15)
 
 [sub_resource type="SphereShape3D" id="SphereShape3D_3ch6p"]
 radius = 2.0
+
+[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_4blvy"]
+properties/0/path = NodePath(".:position")
+properties/0/spawn = true
+properties/0/replication_mode = 1
+properties/1/path = NodePath(".:rotation")
+properties/1/spawn = false
+properties/1/replication_mode = 1
+properties/2/path = NodePath("IFV_tower:rotation")
+properties/2/spawn = true
+properties/2/replication_mode = 1
 
 [node name="IFV" type="CharacterBody3D"]
 script = ExtResource("1_4qxlt")
@@ -51,5 +62,8 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 5.12778, 6.02207)
 one_shot = true
 
 [node name="Player_UI" parent="." instance=ExtResource("6_wxrxy")]
+
+[node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="."]
+replication_config = SubResource("SceneReplicationConfig_4blvy")
 
 [connection signal="timeout" from="Reload_timer" to="." method="_on_reload_timer_timeout"]
