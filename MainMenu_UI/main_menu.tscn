@@ -1,0 +1,103 @@
+[gd_scene load_steps=3 format=3 uid="uid://8ji1uxx3vv3c"]
+
+[ext_resource type="Script" path="res://MainMenu_UI/main_menu.gd" id="1_o2nil"]
+[ext_resource type="Texture2D" uid="uid://cbwxsc62lds6b" path="res://images/bg_main_menu.png" id="1_xk5fr"]
+
+[node name="Main_menu" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_o2nil")
+
+[node name="BG_color" type="ColorRect" parent="."]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+color = Color(0.408329, 0.408329, 0.408329, 1)
+
+[node name="BG_img" type="TextureRect" parent="."]
+self_modulate = Color(1, 1, 1, 0.533333)
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+texture = ExtResource("1_xk5fr")
+
+[node name="HBoxContainer" type="HBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="CenterContainer" type="CenterContainer" parent="HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="VBoxContainer" type="VBoxContainer" parent="HBoxContainer/CenterContainer"]
+layout_mode = 2
+theme_override_constants/separation = 20
+
+[node name="Start_game" type="Button" parent="HBoxContainer/CenterContainer/VBoxContainer"]
+layout_mode = 2
+text = "Start Game"
+
+[node name="Host Game" type="Button" parent="HBoxContainer/CenterContainer/VBoxContainer"]
+layout_mode = 2
+text = "Host Game"
+
+[node name="Settings" type="Button" parent="HBoxContainer/CenterContainer/VBoxContainer"]
+layout_mode = 2
+text = "Settings"
+
+[node name="Quit" type="Button" parent="HBoxContainer/CenterContainer/VBoxContainer"]
+layout_mode = 2
+text = "Quit"
+
+[node name="MarginContainer" type="MarginContainer" parent="HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/margin_left = 40
+theme_override_constants/margin_top = 40
+theme_override_constants/margin_right = 40
+theme_override_constants/margin_bottom = 40
+
+[node name="PanelContainer" type="Panel" parent="HBoxContainer/MarginContainer"]
+layout_mode = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="HBoxContainer/MarginContainer/PanelContainer"]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 10
+
+[node name="InfoTextLabel" type="RichTextLabel" parent="HBoxContainer/MarginContainer/PanelContainer/MarginContainer"]
+layout_mode = 2
+text = "Welcome!
+
+Prepare for intense armored warfare as you command powerful tanks 
+across various battlefields.  Choose from a wide array of tanks, customize your loadout, 
+and strategize to dominate your enemies. 
+Whether you're a lone wolf or part of a battalion, 
+the battlefield awaits your command.
+
+    Multiplayer: Battle players worldwide in epic tank clashes.
+
+    Settings: Adjust game preferences to suit your playstyle.
+
+Gear up!"
+fit_content = true
+scroll_following = true
+autowrap_mode = 0
+tab_size = 2
+
+[connection signal="pressed" from="HBoxContainer/CenterContainer/VBoxContainer/Start_game" to="." method="_on_start_game_pressed"]
+[connection signal="pressed" from="HBoxContainer/CenterContainer/VBoxContainer/Host Game" to="." method="_on_host_game_pressed"]
+[connection signal="pressed" from="HBoxContainer/CenterContainer/VBoxContainer/Settings" to="." method="_on_settings_pressed"]
+[connection signal="pressed" from="HBoxContainer/CenterContainer/VBoxContainer/Quit" to="." method="_on_quit_pressed"]

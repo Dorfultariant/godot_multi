@@ -1,0 +1,77 @@
+[gd_scene load_steps=2 format=3 uid="uid://bdyh2in884leb"]
+
+[ext_resource type="Texture2D" uid="uid://bgwr2624um2eo" path="res://addons/kenney_prototype_textures/dark/texture_08.png" id="1_lmbi6"]
+
+[node name="Network_UI" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="BG_img" type="TextureRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("1_lmbi6")
+stretch_mode = 1
+
+[node name="PanelContainer" type="PanelContainer" parent="."]
+self_modulate = Color(0.462291, 0.462291, 0.462291, 1)
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -144.5
+offset_top = -70.5
+offset_right = 144.5
+offset_bottom = 70.5
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="PanelContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 20
+theme_override_constants/margin_top = 20
+theme_override_constants/margin_right = 20
+theme_override_constants/margin_bottom = 20
+
+[node name="GridContainer" type="GridContainer" parent="PanelContainer/MarginContainer"]
+layout_mode = 2
+theme_override_constants/h_separation = 10
+theme_override_constants/v_separation = 10
+columns = 2
+
+[node name="LAddress" type="Label" parent="PanelContainer/MarginContainer/GridContainer"]
+layout_mode = 2
+text = "IP:"
+
+[node name="IP" type="LineEdit" parent="PanelContainer/MarginContainer/GridContainer"]
+layout_mode = 2
+placeholder_text = "192.168.100.101"
+max_length = 15
+expand_to_text_length = true
+
+[node name="LPort" type="Label" parent="PanelContainer/MarginContainer/GridContainer"]
+layout_mode = 2
+text = "Port:"
+
+[node name="Port" type="LineEdit" parent="PanelContainer/MarginContainer/GridContainer"]
+layout_mode = 2
+placeholder_text = "12345"
+max_length = 6
+expand_to_text_length = true
+
+[node name="BCreate_Server" type="Button" parent="PanelContainer/MarginContainer/GridContainer"]
+layout_mode = 2
+text = "Create Server"
+
+[node name="BJoin_Server" type="Button" parent="PanelContainer/MarginContainer/GridContainer"]
+layout_mode = 2
+text = "Join Server"
