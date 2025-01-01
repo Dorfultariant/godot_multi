@@ -6,8 +6,8 @@ var RightTrackWheels : Array = []
 ## Export variables (GUI configurable)
 @export_category("Player speed")
 @export_range(1, 5) var tank_gears : int = 3 # How many gears to simulate
-@export_range(0.1, 100.0) var speed_forward : float = 2000.0
-@export_range(0.1, 100.0) var speed_backward : float = 1000.0
+@export_range(0.1, 100.0) var speed_forward : float = 2500.0
+@export_range(0.1, 100.0) var speed_backward : float = 2000.0
 @export_range(0.1, 100.0) var speed_turn_max : float = 90
 @export_range(0.1, 100.0) var speed_turn_min : float = 15
 @export_range(1.0, 10.0) var turbo_speed_mult : float = 1.5
@@ -20,11 +20,12 @@ var spring_max_force : float = get_mass() * 2
 var spring_stiffness : float = 10.0
 var spring_damping_compression = 0.5
 var spring_damping_relaxation = 1.0
-var spring_travel : float = 0.15
+var spring_travel : float = 0.30
+var spring_rest_length : float = 0.15
 
 ## OnReady variables
 @onready var turret = $Turret
-#@onready var ground_front_ray = $GroundFrontRay
+@onready var ground_detect_ray = $FlipRay
 #@onready var ground_back_ray = $GroundBackRay
 
 ## Internal variables
@@ -39,6 +40,8 @@ var max_velocity : float = 0.0
 #@onready var anim = $AnimationPlayer
 
 func _ready() -> void:
+	add_collision_exception_with(turret)
+	ground_detect_ray.add_exception(turret)
 	for node in get_children():
 		if node.get_class() == "VehicleWheel3D":
 			if sign(node.transform.origin.x) > 0:
@@ -58,8 +61,8 @@ func _ready() -> void:
 			wheel.damping_relaxation = spring_damping_relaxation
 			wheel.wheel_friction_slip = 0.95
 			wheel.suspension_travel = spring_travel
-			wheel.wheel_rest_length = spring_travel * (1 - 1/3)
-			wheel.wheel_roll_influence = 0.9
+			wheel.wheel_rest_length = spring_rest_length
+			wheel.wheel_roll_influence = 0.95
 		else:
 			wheel.suspension_stiffness = spring_stiffness
 			wheel.suspension_max_force = spring_max_force
@@ -69,8 +72,8 @@ func _ready() -> void:
 			wheel.damping_relaxation = spring_damping_relaxation
 			wheel.wheel_friction_slip = 0.98
 			wheel.suspension_travel = spring_travel
-			wheel.wheel_rest_length = spring_travel * (1 - 1/3)
-			wheel.wheel_roll_influence = 0.9
+			wheel.wheel_rest_length = spring_rest_length
+			wheel.wheel_roll_influence = 0.95
 	
 	for wheel in RightTrackWheels:
 		if wheel.name == "RFWheel" || wheel.name == "RRWheel":
@@ -97,7 +100,10 @@ func _physics_process(delta: float) -> void:
 	else:
 		turbo_enabled = false
 	if Input.is_action_just_released("player_reload"):
-		apply_torque_impulse(-90000.0 * rotation.normalized())
+		if ground_detect_ray.is_colliding():
+			var rot_not_y = rotation.normalized()
+			rot_not_y.y = 0.0
+			apply_torque_impulse(-75000.0 * rot_not_y)
 	# Movement
 	#var input_dir : Vector2 = Vector2.ZERO # Used only for UP and DOWN (can be replaced with single int 
 	var input_movement : float = Input.get_axis("player_backward", "player_forward") # Strength might be useful too
@@ -105,10 +111,16 @@ func _physics_process(delta: float) -> void:
 	#var velocity : float = 
 	if Input.is_action_pressed("player_forward"):
 		for wheel in LeftTrackWheels:
-			wheel.engine_force = speed_forward
+			if turbo_enabled:
+				wheel.engine_force = speed_forward * 1.3
+			else:
+				wheel.engine_force = speed_forward
 			wheel.brake = 0.0
 		for wheel in RightTrackWheels:
-			wheel.engine_force = speed_forward
+			if turbo_enabled:
+				wheel.engine_force = speed_forward * 1.3
+			else:
+				wheel.engine_force = speed_forward
 			wheel.brake = 0.0
 	elif Input.is_action_pressed("player_backward"):
 		for wheel in LeftTrackWheels:

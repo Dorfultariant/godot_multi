@@ -1,4 +1,4 @@
-[gd_scene load_steps=25 format=4 uid="uid://cagqi6qrybj52"]
+[gd_scene load_steps=26 format=4 uid="uid://cagqi6qrybj52"]
 
 [ext_resource type="Script" path="res://tanks/scripts/vehicle_body_tank.gd" id="1_d3nls"]
 [ext_resource type="PackedScene" uid="uid://dcuh6gog0jw5k" path="res://tanks/3D/low_poly_tank/turret_to_scale.tscn" id="2_xbcll"]
@@ -11,6 +11,9 @@ size = Vector3(0.5, 1, 1)
 
 [sub_resource type="PrismMesh" id="PrismMesh_lx14x"]
 size = Vector3(0.5, 1, 1)
+
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_vugg3"]
+height = 0.3
 
 [sub_resource type="PrismMesh" id="PrismMesh_wehbm"]
 size = Vector3(0.5, 1, 1)
@@ -113,6 +116,9 @@ _surfaces = [{
 }]
 blend_shape_mode = 0
 shadow_mesh = SubResource("ArrayMesh_4pvja")
+
+[sub_resource type="ConvexPolygonShape3D" id="ConvexPolygonShape3D_v2jjc"]
+points = PackedVector3Array(-1.9729, 1.19557, -2.19664, 1.30399, 0.2161, -2.0113, -1.2931, 0.2161, 1.91986, -2.10034, 1.28736, 2.16732, 1.67643, 1.62923, -2.03778, 1.30399, 0.2161, 1.91986, -1.2931, 0.2161, -2.0113, -1.59366, 1.59864, 1.24964, 2.11123, 0.991721, -2.26568, -1.7054, 1.61651, -2.00088, 1.55055, 1.60486, 1.26082, -2.10034, 0.991721, 2.38904, 2.03703, 0.991721, 2.38904, -2.10034, 0.991721, -2.26568, 2.11123, 1.36112, -1.8963, 2.03703, 1.28736, 2.16732, -2.10034, 1.36112, -2.04396, 0.752522, 1.55853, 1.51946, 2.11123, 1.06563, 1.27998, 1.71652, 1.54659, 1.35155, -1.69348, 1.61164, -0.599328, 2.04024, 1.06066, -2.26004, -2.02936, 1.06066, -2.26004, 2.11123, 1.36112, -2.04396, 1.70617, 1.61238, -1.29423, 2.11123, 0.991721, -2.11802, -2.10034, 1.36112, -1.8963)
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_85din"]
 resource_name = "Tread"
@@ -220,9 +226,6 @@ _surfaces = [{
 }]
 blend_shape_mode = 0
 shadow_mesh = SubResource("ArrayMesh_4h7nc")
-
-[sub_resource type="ConvexPolygonShape3D" id="ConvexPolygonShape3D_nowkw"]
-points = PackedVector3Array(-1.73918, 0.0137247, -1.7523, 1.77505, 1.0071, 2.44907, -1.72914, 1.0071, 2.44907, 1.77505, 1.0071, -2.42807, 1.79448, 0.0112484, 1.01138, -1.8052, 1.0071, -2.35169, -1.83338, 0.0862329, 1.40367, 1.84651, 0.155349, -2.12875, 1.83507, 0.393821, 2.05816, -1.90861, 0.471661, -2.40735, -1.90296, 0.873411, 2.50168, 1.87751, 0.874312, -2.56765, 1.80149, 0.00930836, -1.69042, 1.87193, 0.953574, 2.58106, -1.8028, 0.392743, 2.07686, -1.71318, 0.0212346, 1.14229, -1.83866, 0.876594, -2.58389, 1.69596, 0.169639, 1.68323, 1.79709, 0.391114, -2.40614, -1.78318, 0.0796177, -2.03319, 1.76986, 0.868864, 2.5499, -1.81972, 0.391616, -2.39609, -1.79928, 0.868718, 2.54886, -1.86113, 0.0797388, -1.95384, 1.81794, 0.0827886, 1.41494, -1.91278, 0.713721, -2.49364, -1.65019, 0.169639, 1.68323, 1.80114, 0.552133, -2.49247, -1.87034, 0.314517, 1.90598, 1.75302, 0.0796177, -2.03319, 1.8661, 0.31176, -2.3118, -1.75229, 0.794633, -2.57578)
 
 [sub_resource type="ArrayMesh" id="ArrayMesh_th265"]
 _surfaces = [{
@@ -333,6 +336,8 @@ blend_shape_mode = 0
 shadow_mesh = SubResource("ArrayMesh_sxr54")
 
 [node name="VehicleBodyTank" type="VehicleBody3D"]
+collision_layer = 3
+collision_mask = 7
 mass = 4000.0
 script = ExtResource("1_d3nls")
 
@@ -378,6 +383,10 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.6, 0.5, 2)
 transform = Transform3D(1.91069e-15, 4.37114e-08, 1, 1, -4.37114e-08, 0, 4.37114e-08, 1, -4.37114e-08, 0, 0, 0)
 mesh = SubResource("PrismMesh_lx14x")
 
+[node name="CollisionShape3D" type="CollisionShape3D" parent="LFWheel"]
+transform = Transform3D(-4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0, 1, 0, 0, 0)
+shape = SubResource("CylinderShape3D_vugg3")
+
 [node name="LMWheel" type="VehicleWheel3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.6, 0.5, 0)
 
@@ -407,9 +416,11 @@ transform = Transform3D(0, -2.98023e-08, 1, 1, -4.37114e-08, 0, 4.37114e-08, 1, 
 mesh = SubResource("PrismMesh_wehbm")
 
 [node name="Tank" type="MeshInstance3D" parent="."]
-visible = false
 mesh = SubResource("ArrayMesh_piuxm")
 skeleton = NodePath("")
+
+[node name="CollisionShape3D2" type="CollisionShape3D" parent="."]
+shape = SubResource("ConvexPolygonShape3D_v2jjc")
 
 [node name="TrackLeft" type="MeshInstance3D" parent="."]
 transform = Transform3D(-1, 1.50996e-07, 0, -1.50996e-07, -1, 0, 0, 0, 1, 1.69689, 0.49316, -0.0215558)
@@ -428,10 +439,6 @@ visible = false
 mesh = SubResource("ArrayMesh_x3m8f")
 skeleton = NodePath("")
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.206554, 0)
-shape = SubResource("ConvexPolygonShape3D_nowkw")
-
 [node name="BackPlateRight" type="MeshInstance3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.667298, 0.827613, -2.08394)
 mesh = SubResource("ArrayMesh_m2e5q")
@@ -444,3 +451,7 @@ skeleton = NodePath("")
 
 [node name="Turret" parent="." instance=ExtResource("2_xbcll")]
 transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 0, 1.51203, -0.371695)
+
+[node name="FlipRay" type="RayCast3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.3018, 0)
+target_position = Vector3(0, 4, 0)

@@ -69,4 +69,4 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -43.9272, 2.5, -23.3952)
 transform = Transform3D(-0.665009, 0, 0.746836, 0, 1, 0, -0.746836, 0, -0.665009, 12.5035, 2.5, -64.215)
 
 [node name="VehicleBodyTank" parent="." instance=ExtResource("5_hhmbf")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -32, 7, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -22.4982, 8.04763, -91.9498)

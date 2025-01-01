@@ -26,3 +26,16 @@ height = 49.0
 transform = Transform3D(-0.0104198, 0, -0.999946, 0, 1, 0, 0.999946, 0, -0.0104198, 0, -22.5087, -57.3436)
 polygon = PackedVector2Array(-60, 0, -37, 9, 3.594, 0, 0.538, 0)
 depth = 30.0
+
+[node name="CSGCylinder3D" type="CSGCylinder3D" parent="."]
+transform = Transform3D(-4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0, 1, -13.1474, -66.488, -89.6387)
+radius = 50.0
+height = 30.0
+sides = 32
+
+[node name="CSGCylinder3D2" type="CSGCylinder3D" parent="."]
+transform = Transform3D(-0.47504, 0.660374, 0.581586, 0.841984, 0.533185, 0.0823171, -0.255733, 0.52879, -0.809309, -199.845, -78.9869, -192.828)
+radius = 200.0
+height = 200.0
+sides = 64
+cone = true
