@@ -40,6 +40,7 @@ var max_velocity : float = 0.0
 #@onready var anim = $AnimationPlayer
 
 func _ready() -> void:
+	Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
 	add_collision_exception_with(turret)
 	ground_detect_ray.add_exception(turret)
 	for node in get_children():

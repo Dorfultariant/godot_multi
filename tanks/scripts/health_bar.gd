@@ -36,7 +36,7 @@ signal revive_succesful(health_amount:float)
 
 var health_text
 
-var hitnumber = preload("res://scenes/shared/hit_number.tscn")
+@onready var hitnumber : PackedScene = preload("res://scenes/share/hit_number.tscn")
 
 # General hit function for every damage type. Testing 
 # Inputs:
@@ -139,4 +139,3 @@ func _process(delta):
 	if replenish_timer >= replenish_health_wait_time:
 		add_health(delta * replenish_health_per_second)
 	
-

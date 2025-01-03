@@ -30,10 +30,13 @@ var accumulated_speed : float = 0.0
 var is_reloaded : bool = false
 var acc_rot_x : float = 0.0
 
+var control : bool = false
+
 func _ready() -> void:
 	mult_sync.set_multiplayer_authority(str(name).to_int())	
-	
-	if mult_sync.get_multiplayer_authority() != multiplayer.get_unique_id():
+	#control = mult_sync.get_multiplayer_authority() != multiplayer.get_unique_id()
+	control = true
+	if not control:
 		print("No match: ", name)
 		return
 	
@@ -44,7 +47,7 @@ func _ready() -> void:
 
 
 func _process(delta: float) -> void:
-	if mult_sync.get_multiplayer_authority() != multiplayer.get_unique_id():
+	if not control: 
 		return
 		
 	if Input.is_action_pressed("player_shoot"):
@@ -54,7 +57,7 @@ func _process(delta: float) -> void:
 
 
 func _physics_process(delta: float) -> void:
-	if mult_sync.get_multiplayer_authority() != multiplayer.get_unique_id():
+	if not control: 
 		return
 		
 	# Add the gravity.
@@ -78,7 +81,7 @@ func _physics_process(delta: float) -> void:
 	move_and_slide()
 
 func _input(event: InputEvent) -> void:
-	if mult_sync.get_multiplayer_authority() != multiplayer.get_unique_id():
+	if not control: 
 		return
 		
 	# Handle mouse cursor capturing and release
