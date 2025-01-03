@@ -45,6 +45,6 @@ class_name Weapon_Resource
 @export var has_single_fire : bool
 @export var has_burst_fire : bool
 @export var has_auto_fire : bool
-@export_flags ("HitScan" , "Projectile" , "Charged") var Type
+@export_flags ("HitScan" , "Projectile" , "Guided", "Controlled", "Charged") var Type
 
 @export var is_throwable : bool

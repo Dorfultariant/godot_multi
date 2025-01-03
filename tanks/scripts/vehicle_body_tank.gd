@@ -26,11 +26,10 @@ var spring_rest_length : float = 0.15
 ## OnReady variables
 @onready var turret = $Turret
 @onready var ground_detect_ray = $FlipRay
+var rocket_instance
 #@onready var ground_back_ray = $GroundBackRay
 
 ## Internal variables
-var millis = 0
-var impulse_on_bodies : float = 1000.0
 var turbo_enabled : bool = false
 var keep_turret_fixed : bool = false
 
@@ -59,7 +58,7 @@ func _ready() -> void:
 			wheel.use_as_traction = true
 			wheel.damping_compression = spring_damping_compression
 			wheel.damping_relaxation = spring_damping_relaxation
-			wheel.wheel_friction_slip = 0.95
+			wheel.wheel_friction_slip = 1
 			wheel.suspension_travel = spring_travel
 			wheel.wheel_rest_length = spring_rest_length
 			wheel.wheel_roll_influence = 0.95
@@ -70,7 +69,7 @@ func _ready() -> void:
 			wheel.use_as_traction = true
 			wheel.damping_compression = spring_damping_compression
 			wheel.damping_relaxation = spring_damping_relaxation
-			wheel.wheel_friction_slip = 0.98
+			wheel.wheel_friction_slip = 1
 			wheel.suspension_travel = spring_travel
 			wheel.wheel_rest_length = spring_rest_length
 			wheel.wheel_roll_influence = 0.95
@@ -83,7 +82,7 @@ func _ready() -> void:
 			wheel.use_as_traction = true
 			wheel.damping_compression = spring_damping_compression
 			wheel.damping_relaxation = spring_damping_relaxation
-			wheel.wheel_friction_slip = 0.95
+			wheel.wheel_friction_slip = 1
 		else:
 			wheel.suspension_stiffness = spring_stiffness
 			wheel.suspension_max_force = spring_max_force
@@ -91,7 +90,7 @@ func _ready() -> void:
 			wheel.use_as_traction = true
 			wheel.damping_compression = spring_damping_compression
 			wheel.damping_relaxation = spring_damping_relaxation
-			wheel.wheel_friction_slip = 0.98
+			wheel.wheel_friction_slip = 1
 
 func _physics_process(delta: float) -> void:
 	# Turbo

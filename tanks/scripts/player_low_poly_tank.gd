@@ -45,7 +45,7 @@ func _ready() -> void:
 	#print("C: ", c)
 	
 	# From turret, when player fires there, we play tank's firing animation here.
-	turret.connect("player_fires", _on_player_fires) 
+	turret.connect("player_fires", _on_player_fires)
 
 func turn_speed_at_velocity(velocity_length: float) -> float:
 	# Follows function: a cos(2pi*velocity_length / b) + c

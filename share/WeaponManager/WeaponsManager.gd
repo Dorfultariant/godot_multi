@@ -1,5 +1,4 @@
 extends Node3D
-
 class_name WeaponManager
 
 @export var Animation_Player : AnimationPlayer
@@ -16,7 +15,6 @@ var millis = 0
 var in_ammo_zone = false
 
 @export var _weapon_scenes:Array[PackedScene]
-
 @export var Start_Weapons:Array[String]
 
 signal weapon_changed(weapon_side_texture:Texture2D)
@@ -24,10 +22,17 @@ signal weapon_update_ammo(weapon_ammo:Array)
 signal weapon_update_stack(weapon_stack:Array)
 signal equipped_weapon(weapon_attributes:Weapon_Resource)
 
-var HitScan_SpawnPoint
+var HitScan_SpawnPoint : Marker3D
 var manager_enabled : bool = true
 
-enum {NULL, HITSCAN, PROJECTILE, CHARGED=4}
+enum {
+	NULL,
+	HITSCAN,
+	PROJECTILE,
+	GUIDED,
+	CONTROLLED,
+	CHARGED
+}
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -38,43 +43,68 @@ func _ready():
 func _unhandled_input(event):
 	if not manager_enabled:
 		return
-
+	if Current_Weapon == null:
+		print("No weapon, return")
+		return
 	if event.is_action_pressed("player_select_weapon_1"):
 		CheckWeapon(Weapon_Indicator, 0)
 	elif event.is_action_pressed("player_select_weapon_2"):
 		CheckWeapon(Weapon_Indicator, 1)
 	elif event.is_action_pressed("player_select_weapon_3"):
 		CheckWeapon(Weapon_Indicator, 2)
-	elif event.is_action_pressed("player_select_weapon_4"):
-		CheckWeapon(Weapon_Indicator, 3)
-	elif event.is_action_pressed("player_select_weapon_5"):
-		CheckWeapon(Weapon_Indicator, 4)
+	#elif event.is_action_pressed("player_select_weapon_4"):
+		#CheckWeapon(Weapon_Indicator, 3)
+	#elif event.is_action_pressed("player_select_weapon_5"):
+		#CheckWeapon(Weapon_Indicator, 4)
 	elif event.is_action_pressed("player_shoot"):
+		if Current_Weapon == null:
+			print("No weapon, return")
+			return
 		match Current_Weapon.attributes.Type:
 			NULL:
 				print("Weapon Type not chosen!")
 			HITSCAN:
-				shoot(0.0)
+				#shoot(0.0)
+				print("Hitscan weapon shoots <TODO>")
 			PROJECTILE:
-				shoot(0.0)
+				print("Projectile weapon shoots")
+				#shoot(0.0)
+			GUIDED:
+				print("Guided weapon shoots <TODO>")
+			CONTROLLED:
+				print("Player controlled weapon shoots <TODO>")
 			CHARGED:
 				millis = Time.get_ticks_msec()
-				print("Charging: "+var_to_str(millis))
-	elif event.is_action_released("player_shoot"):
+				print("Starting charging...")
+	elif event.is_action_released("player_shoot"): # At button release 
+		if Current_Weapon == null:
+			print("No weapon, return")
+			return
 		match Current_Weapon.attributes.Type:
 			NULL:
-				print("Weapon Type not chosen!")
+				pass
 			HITSCAN:
+				#shoot(0.0)
+				#print("Hitscan weapon shoots <TODO>")
 				pass
 			PROJECTILE:
 				pass
+				#print("Projectile weapon shoots")
+				#shoot(0.0)
+			GUIDED:
+				pass
+				#print("Guided weapon shoots <TODO>")
+			CONTROLLED:
+				pass
+				#print("Player controlled weapon shoots <TODO>")
 			CHARGED:
-				charge_time = (Time.get_ticks_msec() - millis)/1000.0
-				print("Charge released: "+var_to_str(charge_time))
-				shoot(charge_time)
-				millis = 0
-				charge_time = 0
+				charge_time = (Time.get_ticks_msec() - millis) / 1000
+				print("Charge time was ", charge_time, " seconds")
+				print("Charged weapon shoots!")
 	elif event.is_action_pressed("player_reload"):
+		if Current_Weapon == null:
+			print("No weapon, return")
+			return
 		reload()
 
 func CheckWeapon(index:int, next_index:int):
@@ -107,22 +137,26 @@ func Initialize():
 	enter()
 
 # Enter next weapon
+# Missing error handling
 func enter():
 	Animation_Player.queue(Current_Weapon.attributes.Activate_Anim)
 	print("Weapon Type is " + var_to_str(Current_Weapon.attributes.Type))
 	match Current_Weapon.attributes.Type:
-			NULL:
-				print("Weapon Type not chosen!")
-			HITSCAN:
-				HitScan_SpawnPoint = Current_Weapon.find_child(Current_Weapon.attributes.Ammo_Spawn_Node)
-				Ammo = Current_Weapon.attributes.Ammo_Scene
-			PROJECTILE:
-				HitScan_SpawnPoint = Current_Weapon.find_child(Current_Weapon.attributes.Ammo_Spawn_Node)
-				print(HitScan_SpawnPoint)
-				Ammo = Current_Weapon.attributes.Ammo_Scene
-			CHARGED:
-				HitScan_SpawnPoint = Current_Weapon.find_child(Current_Weapon.attributes.Ammo_Spawn_Node)
-				Ammo = Current_Weapon.attributes.Ammo_Scene
+		NULL:
+			print("Weapon Type not chosen!")
+		HITSCAN:
+			HitScan_SpawnPoint = Current_Weapon.find_child(Current_Weapon.attributes.Ammo_Spawn_Node)
+			Ammo = Current_Weapon.attributes.Ammo_Scene
+		PROJECTILE:
+			HitScan_SpawnPoint = Current_Weapon.find_child(Current_Weapon.attributes.Ammo_Spawn_Node)
+			print(HitScan_SpawnPoint)
+			Ammo = Current_Weapon.attributes.Ammo_Scene
+		GUIDED:
+			HitScan_SpawnPoint = Current_Weapon.find_child(Current_Weapon.attributes.Ammo_Spawn_Node)
+			Ammo = Current_Weapon.attributes.Ammo_Scene
+		CONTROLLED:
+			HitScan_SpawnPoint = Current_Weapon.find_child(Current_Weapon.attributes.Ammo_Spawn_Node)
+			Ammo = Current_Weapon.attributes.Ammo_Scene
 	emit_signal("equipped_weapon", Current_Weapon.attributes)
 	emit_signal("weapon_changed", Current_Weapon.attributes.WeaponSideTexture)
 	emit_signal("weapon_update_ammo", [Current_Weapon.attributes.Current_Ammo, Current_Weapon.attributes.Reserve_Ammo])
@@ -176,7 +210,7 @@ func reload():
 			emit_signal("weapon_update_ammo", [Current_Weapon.attributes.Current_Ammo, Current_Weapon.attributes.Reserve_Ammo])
 	
 
-
+#@param: _use_ray_end : bool
 func Get_Camera_Collision(_use_ray_end : bool = false)->Vector3:
 	# Get current camera view
 	var camera = get_viewport().get_camera_3d()
