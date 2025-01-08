@@ -1,6 +1,7 @@
-[gd_scene load_steps=8 format=3 uid="uid://blvlibb8wdk06"]
+[gd_scene load_steps=10 format=3 uid="uid://blvlibb8wdk06"]
 
 [ext_resource type="Script" path="res://tanks/scripts/tow_ammo.gd" id="1_bs324"]
+[ext_resource type="Script" path="res://tanks/scripts/gpu_particles_despawn.gd" id="2_emlr3"]
 
 [sub_resource type="CylinderMesh" id="CylinderMesh_qi0co"]
 top_radius = 0.125
@@ -21,11 +22,17 @@ size = Vector3(0.15, 0.075, 0.05)
 [sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_fa8me"]
 gravity = Vector3(0, -1, 0)
 
-[sub_resource type="SphereMesh" id="SphereMesh_47nwn"]
-radius = 0.15
-height = 0.3
-radial_segments = 12
-rings = 4
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_hyvdo"]
+transparency = 1
+albedo_color = Color(0.498039, 0.498039, 0.498039, 0.784314)
+
+[sub_resource type="TubeTrailMesh" id="TubeTrailMesh_4vk1r"]
+material = SubResource("StandardMaterial3D_hyvdo")
+radius = 0.2
+radial_steps = 5
+sections = 2
+section_rings = 5
+cap_top = false
 
 [node name="TOWAmmo" type="CharacterBody3D"]
 motion_mode = 1
@@ -57,7 +64,9 @@ transform = Transform3D(-0.0627906, 0.998027, 4.37114e-08, 2.74466e-09, -4.36251
 mesh = SubResource("PrismMesh_3w2ky")
 
 [node name="GPUParticles3D" type="GPUParticles3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.361825)
-amount = 24
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, -0.490588)
+amount = 52
+lifetime = 2.0
 process_material = SubResource("ParticleProcessMaterial_fa8me")
-draw_pass_1 = SubResource("SphereMesh_47nwn")
+draw_pass_1 = SubResource("TubeTrailMesh_4vk1r")
+script = ExtResource("2_emlr3")

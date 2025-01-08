@@ -26,6 +26,7 @@ var spring_rest_length : float = 0.15
 ## OnReady variables
 @onready var turret = $Turret
 @onready var ground_detect_ray = $FlipRay
+@onready var wmanager = $WeaponManager
 var rocket_instance
 #@onready var ground_back_ray = $GroundBackRay
 
@@ -39,7 +40,11 @@ var max_velocity : float = 0.0
 #@onready var anim = $AnimationPlayer
 
 func _ready() -> void:
+	# Collision expection with turret (otherwise it won't move)
 	add_collision_exception_with(turret)
+	
+	# Set the player bodies to Global variable
+	Global.player_body = [self, turret]
 	ground_detect_ray.add_exception(turret)
 	for node in get_children():
 		if node.get_class() == "VehicleWheel3D":
@@ -91,6 +96,9 @@ func _ready() -> void:
 			wheel.damping_compression = spring_damping_compression
 			wheel.damping_relaxation = spring_damping_relaxation
 			wheel.wheel_friction_slip = 1
+	
+	# Set Weapon manager
+	wmanager.Initialize()
 
 func _physics_process(delta: float) -> void:
 	# Turbo
@@ -155,3 +163,6 @@ func _physics_process(delta: float) -> void:
 			wheel.engine_force = 10 * speed_forward
 		for wheel in RightTrackWheels:
 			wheel.engine_force = -10 * speed_forward
+
+func free() -> void:
+	pass

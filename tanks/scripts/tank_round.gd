@@ -17,16 +17,6 @@ func initialize():
 	particles.emitting = true
 	#audio_rocket_shoot.play()
 
-#func _physics_process(delta: float) -> void:
-	#var collisions = get_colliding_bodies()
-	#if collisions:
-		#for col in collisions:
-			#var body = col.get_collider()
-			#if body:
-				#print("Hit")
-				#despawn()
-				#hit_if_enemy(body, slide_collision)
-
 func _on_body_entered(_body):
 	var W = get_tree().get_root()
 	var E = explosion.instantiate()
@@ -37,16 +27,21 @@ func _on_body_entered(_body):
 		_body.took_damage(DAMAGE)
 	despawn()
 	
-func despawn():
+func despawn() -> void:
+	if get_node("GPUParticles3D") == null:
+		if is_queued_for_deletion():
+			return
+		else:
+			queue_free()
+			return
+	var W = get_tree().get_root()
+	particles.stop_emiting()
 	
+	# Moves the particles to the ROOT, so we can despawn the projectile without affecting the particles (sudden disappear)
+	particles.reparent(W)
+	print("Despawning ", get_rid())
 	queue_free()
-	#set_freeze_enabled(true)
-	#round_col.set_shape(null)
-	#round_col.hide()
-	##rocket.hide()
-	#particles.emitting = false
-	#print("Rocket will despawn shortly")
 
 func _on_timer_timeout():
-	print("Rocket despawns")
-	queue_free()
+	
+	despawn()

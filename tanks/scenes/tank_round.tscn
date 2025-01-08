@@ -1,6 +1,7 @@
-[gd_scene load_steps=12 format=4 uid="uid://cvs3wmih65xc5"]
+[gd_scene load_steps=13 format=4 uid="uid://cvs3wmih65xc5"]
 
 [ext_resource type="Script" path="res://tanks/scripts/tank_round.gd" id="1_p6a53"]
+[ext_resource type="Script" path="res://tanks/scripts/gpu_particles_despawn.gd" id="2_inwpw"]
 
 [sub_resource type="PhysicsMaterial" id="PhysicsMaterial_6dx7h"]
 friction = 0.5
@@ -102,6 +103,7 @@ amount = 50
 lifetime = 4.0
 process_material = SubResource("ParticleProcessMaterial_188bh")
 draw_pass_1 = SubResource("SphereMesh_ee2rb")
+script = ExtResource("2_inwpw")
 
 [node name="Timer" type="Timer" parent="."]
 wait_time = 30.0

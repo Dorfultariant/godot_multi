@@ -1,0 +1,32 @@
+[gd_resource type="Resource" script_class="Weapon_Resource" load_steps=3 format=3 uid="uid://l6wblbr5sy5m"]
+
+[ext_resource type="PackedScene" uid="uid://blvlibb8wdk06" path="res://tanks/scenes/tow_ammo.tscn" id="1_f1w0u"]
+[ext_resource type="Script" path="res://share/Weapons/tres/weapon_resource.gd" id="1_pajof"]
+
+[resource]
+script = ExtResource("1_pajof")
+Weapon_Name = "TOW"
+Animation_Player_Path = ""
+Activate_Anim = "activate"
+Shoot_Anim = "fire"
+Reload_Anim = "reload"
+DeActivate_Anim = "deactivate"
+Speed_Scale = 1.0
+Sound_Scale = 1.0
+Ammo_Scene = ExtResource("1_f1w0u")
+Ammo_Spawn_Node = "AmmoSpawn"
+Ammo_Spawns_At_Main = false
+Type = 8
+Current_Ammo = 2
+Reserve_Ammo = 100
+Full_Magazine = 2
+Max_Ammo = 102
+Weapon_Ammo_Speed = 200.0
+Weapon_sway_angle_max = 0.0
+Weapon_sway_scale = 0.0
+Weapon_Aim_Position = Vector3(0, 0, 0)
+Weapon_Aim_FOV = 40.0
+Weapon_Range = 2000
+Weapon_Damage = 40
+Weapon_Parent_Updates = true
+firemode = 0

@@ -1,16 +1,16 @@
 extends CharacterBody3D
 # This is tow ammo character, which is user controllable to a position
 
-var SPEED : float = 200.0
+var SPEED : float = 800.0
 var ACCELERATION : float = 10.0
-var TURNING_SPEED : float = 1.5 # in degrees
+var TURNING_SPEED : float = 5.5 # in degrees
 var DAMAGE : float = 400
 # Global position of the target the TOW should hit
 var target_transform
 var explosion = load("res://tanks/scenes/explosion.tscn")
 # Parent node in the node tree, add it in later.
 var player_in_control
-signal collision_detected_signal
+signal controlled_despawns
 
 func _ready() -> void:
 	pass
@@ -25,7 +25,7 @@ func _physics_process(delta: float) -> void:
 		var new_transform = transform.looking_at(target_position, Vector3.UP, true)
 		transform  = transform.interpolate_with(new_transform, TURNING_SPEED * delta)
 	
-	velocity = transform.basis * Vector3.BACK.normalized() * delta * ACCELERATION * SPEED
+	velocity = transform.basis * Vector3.BACK * delta * ACCELERATION * SPEED
 	#velocity.z = transform.origin.z * SPEED * ACCELERATION * delta
 	
 	move_and_slide()
@@ -45,4 +45,10 @@ func collision_detected(_body) -> void:
 	if _body.has_method("took_damage"):
 		_body.took_damage(DAMAGE)
 	
-	emit_signal("collision_detected_signal")
+	emit_signal("controlled_despawns")
+
+func despawn() -> void:
+	var W = get_tree().get_root()
+	$GPUParticles3D.stop_emiting()
+	$GPUParticles3D.reparent(W)
+	queue_free()

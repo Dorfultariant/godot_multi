@@ -1,0 +1,11 @@
+[gd_scene load_steps=3 format=3 uid="uid://bffa80a72oy8l"]
+
+[ext_resource type="Script" path="res://tanks/scripts/basic_weapon.gd" id="1_me3mh"]
+[ext_resource type="Resource" uid="uid://xiny6b2exuxl" path="res://tanks/weapon_tres/heat.tres" id="2_j3us3"]
+
+[node name="HEAT" type="Node3D"]
+script = ExtResource("1_me3mh")
+weapon_resource = ExtResource("2_j3us3")
+
+[node name="AmmoSpawn" type="Marker3D" parent="."]
+transform = Transform3D(-1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, 0, 0, 0)

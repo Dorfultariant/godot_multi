@@ -1,0 +1,109 @@
+[gd_scene load_steps=11 format=3 uid="uid://d25c5852cledy"]
+
+[ext_resource type="Texture2D" uid="uid://co35xha7avkuq" path="res://addons/kenney_prototype_textures/orange/texture_13.png" id="1_2it4u"]
+[ext_resource type="Texture2D" uid="uid://c1e7eh1jo6a8d" path="res://addons/kenney_prototype_textures/purple/texture_11.png" id="2_jik75"]
+[ext_resource type="Texture2D" uid="uid://dl45rwni5o8gv" path="res://addons/kenney_prototype_textures/green/texture_12.png" id="3_rvins"]
+[ext_resource type="PackedScene" uid="uid://by5thtmi14f7a" path="res://tanks/scenes/vehicle_body_tank.tscn" id="4_an4wb"]
+
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_e75bh"]
+sky_top_color = Color(0.117647, 0.458824, 0.6, 1)
+sky_horizon_color = Color(0.579412, 0.656956, 0.68325, 1)
+ground_horizon_color = Color(0.579412, 0.656956, 0.68325, 1)
+
+[sub_resource type="Sky" id="Sky_g0k3y"]
+sky_material = SubResource("ProceduralSkyMaterial_e75bh")
+
+[sub_resource type="Environment" id="Environment_5vwmj"]
+background_mode = 2
+sky = SubResource("Sky_g0k3y")
+tonemap_mode = 2
+glow_enabled = true
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_3bmyd"]
+albedo_texture = ExtResource("1_2it4u")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_io3qh"]
+albedo_texture = ExtResource("2_jik75")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_44o1b"]
+albedo_texture = ExtResource("3_rvins")
+uv1_triplanar = true
+
+[node name="Node3D" type="Node3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -72.4476, 0)
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(-0.901077, -0.200913, 0.38431, 0, 0.886204, 0.463296, -0.433659, 0.417465, -0.798538, 0, 0, 0)
+shadow_enabled = true
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_5vwmj")
+
+[node name="CSGTorus3D" type="CSGSphere3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -24.5706, 0)
+material_override = SubResource("StandardMaterial3D_3bmyd")
+use_collision = true
+radius = 131.131
+radial_segments = 100
+rings = 50
+
+[node name="CSGTorus3D2" type="CSGSphere3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -148.049, -49.5976, 0)
+material_override = SubResource("StandardMaterial3D_io3qh")
+use_collision = true
+radius = 131.131
+radial_segments = 100
+rings = 50
+
+[node name="CSGCylinder3D" type="CSGCylinder3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 71.5702, 0)
+material_override = SubResource("StandardMaterial3D_44o1b")
+use_collision = true
+radius = 200.0
+
+[node name="CSGCombiner3D" type="CSGCombiner3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 4.80182, 0)
+operation = 2
+use_collision = true
+
+[node name="CSGCylinder3D2" type="CSGCylinder3D" parent="CSGCombiner3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 71.5702, -195.577)
+radius = 50.0
+height = 20.0
+sides = 20
+
+[node name="CSGCylinder3D3" type="CSGCylinder3D" parent="CSGCombiner3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 73.0292, -190.437)
+operation = 2
+radius = 48.0
+height = 10.0
+sides = 20
+
+[node name="CSGCombiner3D2" type="CSGCombiner3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 4.80182, 0)
+operation = 2
+use_collision = true
+
+[node name="CSGCylinder3D2" type="CSGCylinder3D" parent="CSGCombiner3D2"]
+transform = Transform3D(-0.624779, 0, -0.780801, 0, 1, 0, 0.780801, 0, -0.624779, -6.56015, 71.5702, 100.503)
+radius = 50.0
+height = 20.0
+sides = 20
+
+[node name="CSGCylinder3D3" type="CSGCylinder3D" parent="CSGCombiner3D2"]
+transform = Transform3D(-0.624779, 0, -0.780801, 0, 1, 0, 0.780801, 0, -0.624779, -2.86773, 73.0292, 97.2921)
+operation = 2
+radius = 48.0
+height = 10.0
+sides = 20
+
+[node name="CSGTorus3D3" type="CSGTorus3D" parent="CSGCombiner3D2"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 69.74, 103.42)
+operation = 1
+inner_radius = 50.0
+outer_radius = 15.0
+sides = 50
+ring_sides = 25
+
+[node name="VehicleBodyTank" parent="." instance=ExtResource("4_an4wb")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -8.56701, 72.5702, -117.176)
