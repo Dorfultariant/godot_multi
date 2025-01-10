@@ -8,8 +8,8 @@ var RightTrackWheels : Array = []
 @export_range(1, 5) var tank_gears : int = 3 # How many gears to simulate
 @export_range(100, 10000.0) var speed_forward : float = 2500.0
 @export_range(100, 10000.0) var speed_backward : float = 2000.0
-@export_range(0.1, 100.0) var speed_turn_max : float = 90
-@export_range(0.1, 100.0) var speed_turn_min : float = 15
+@export_range(0.1, 100.0) var speed_turn_max : float = 10.0
+@export_range(0.1, 100.0) var speed_turn_min : float = 5.0
 @export_range(1.0, 10.0) var turbo_speed_mult : float = 1.5
 @export_range(0.1, 100.0) var speed_on_air : float = 0.0
 @export_range(0.1, 100.0) var acceleration : float = 1.2
@@ -33,8 +33,9 @@ var rocket_instance
 ## Internal variables
 var turbo_enabled : bool = false
 var keep_turret_fixed : bool = false
-
 var max_velocity : float = 0.0
+
+var player_in_control = true
 
 # Animation
 #@onready var anim = $AnimationPlayer
@@ -102,7 +103,7 @@ func _ready() -> void:
 
 func _physics_process(delta: float) -> void:
 	# Turbo
-	if Input.is_action_pressed("player_turbo"):
+	if player_in_control and Input.is_action_pressed("player_turbo"):
 		turbo_enabled = true
 	else:
 		turbo_enabled = false
@@ -115,54 +116,51 @@ func _physics_process(delta: float) -> void:
 	#var input_dir : Vector2 = Vector2.ZERO # Used only for UP and DOWN (can be replaced with single int 
 	var input_movement : float = Input.get_axis("player_backward", "player_forward") # Strength might be useful too
 	var input_steering : float = Input.get_axis("player_turn_left", "player_turn_right") # Here as well
-	#var velocity : float = 
-	if Input.is_action_pressed("player_forward"):
-		for wheel in LeftTrackWheels:
+	if player_in_control and Input.is_action_pressed("player_forward"):
+		for wheel_idx in LeftTrackWheels.size():
+			LeftTrackWheels[wheel_idx].brake = 0.0
+			RightTrackWheels[wheel_idx].brake = 0.0
 			if turbo_enabled:
-				wheel.engine_force = speed_forward * 1.3
+				LeftTrackWheels[wheel_idx].engine_force = speed_forward * 1.3
+				RightTrackWheels[wheel_idx].engine_force = speed_forward * 1.3
 			else:
-				wheel.engine_force = speed_forward
-			wheel.brake = 0.0
-		for wheel in RightTrackWheels:
-			if turbo_enabled:
-				wheel.engine_force = speed_forward * 1.3
-			else:
-				wheel.engine_force = speed_forward
-			wheel.brake = 0.0
-	elif Input.is_action_pressed("player_backward"):
-		for wheel in LeftTrackWheels:
-			wheel.engine_force = -speed_backward
-			wheel.brake = 0.0
-		for wheel in RightTrackWheels:
-			wheel.engine_force = -speed_backward
-			wheel.brake = 0.0
+				LeftTrackWheels[wheel_idx].engine_force = speed_forward
+				RightTrackWheels[wheel_idx].engine_force = speed_forward
+	elif player_in_control and Input.is_action_pressed("player_backward"):
+		for wheel_idx in LeftTrackWheels.size():
+			LeftTrackWheels[wheel_idx].brake = 0.0
+			RightTrackWheels[wheel_idx].brake = 0.0
+			LeftTrackWheels[wheel_idx].engine_force = -speed_backward
+			RightTrackWheels[wheel_idx].engine_force = -speed_backward
 	else: # Brake
-		for wheel in LeftTrackWheels:
-			wheel.engine_force = 0.0
-			# Front and Rear wheels should have less brake power
-			if wheel.name == "LFWheel" || wheel.name == "LRWheel":
-				wheel.brake = lerp(wheel.brake, 0.2*speed_backward, delta * deacceleration)
+		for wheel_idx in LeftTrackWheels.size():
+			LeftTrackWheels[wheel_idx].engine_force = 0.0
+			RightTrackWheels[wheel_idx].engine_force = 0.0
+			if LeftTrackWheels[wheel_idx].name == "LFWheel":
+				LeftTrackWheels[wheel_idx].brake = lerp(LeftTrackWheels[wheel_idx].brake, 0.2*speed_backward, delta * deacceleration)
 			else:
-				wheel.brake = lerp(wheel.brake, 0.2*speed_backward, delta * deacceleration)
-		for wheel in RightTrackWheels:
-			wheel.engine_force = 0.0
-			# Front and Rear wheels should have less brake power
-			if wheel.name == "RFWheel" || wheel.name == "RRWheel":
-				wheel.brake = lerp(wheel.brake, 0.2*speed_backward, delta * deacceleration) 
+				LeftTrackWheels[wheel_idx].brake = lerp(LeftTrackWheels[wheel_idx].brake, 0.3*speed_backward, delta * deacceleration)
+			if RightTrackWheels[wheel_idx].name == "LRWheel":
+				RightTrackWheels[wheel_idx].brake = lerp(RightTrackWheels[wheel_idx].brake, 0.2*speed_backward, delta * deacceleration)
 			else:
-				wheel.brake = lerp(wheel.brake, 0.2*speed_backward, delta * deacceleration)
-	
-	if Input.is_action_pressed("player_turn_left"):
-		for wheel in LeftTrackWheels:
-			wheel.engine_force = -10 * speed_forward
-		for wheel in RightTrackWheels:
-			wheel.engine_force = 10 * speed_forward
-		
-	elif Input.is_action_pressed("player_turn_right"):
-		for wheel in LeftTrackWheels:
-			wheel.engine_force = 10 * speed_forward
-		for wheel in RightTrackWheels:
-			wheel.engine_force = -10 * speed_forward
+				RightTrackWheels[wheel_idx].brake = lerp(RightTrackWheels[wheel_idx].brake, 0.3*speed_backward, delta * deacceleration)
+	if player_in_control and Input.is_action_pressed("player_turn_left"):
+		for wheel_idx in LeftTrackWheels.size():
+			LeftTrackWheels[wheel_idx].brake = 0.0
+			RightTrackWheels[wheel_idx].brake = 0.0
+			LeftTrackWheels[wheel_idx].engine_force = -speed_turn_min * speed_forward
+			RightTrackWheels[wheel_idx].engine_force = speed_turn_min * speed_forward
+	elif player_in_control and Input.is_action_pressed("player_turn_right"):
+		for wheel_idx in LeftTrackWheels.size():
+			LeftTrackWheels[wheel_idx].brake = 0.0
+			RightTrackWheels[wheel_idx].brake = 0.0
+			LeftTrackWheels[wheel_idx].engine_force = speed_turn_min * speed_forward
+			RightTrackWheels[wheel_idx].engine_force = -speed_turn_min * speed_forward
 
-func free() -> void:
-	pass
+func player_make_current() -> void:
+	player_in_control = true
+	turret.player_make_current()
+
+func player_elsewhere() -> void:
+	player_in_control = false
+	turret.player_elsewhere()

@@ -1,7 +1,7 @@
 extends CharacterBody3D
 # This is tow ammo character, which is user controllable to a position
 
-var SPEED : float = 800.0
+var SPEED : float = 500.0
 var ACCELERATION : float = 10.0
 var TURNING_SPEED : float = 5.5 # in degrees
 var DAMAGE : float = 400
@@ -46,6 +46,7 @@ func collision_detected(_body) -> void:
 		_body.took_damage(DAMAGE)
 	
 	emit_signal("controlled_despawns")
+	despawn()
 
 func despawn() -> void:
 	var W = get_tree().get_root()

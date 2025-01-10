@@ -34,8 +34,14 @@ signal equipped_weapon(weapon_weapon_resource:Weapon_Resource)
 
 var HitScan_SpawnPoint
 var manager_enabled : bool = true
+
+# Nodes for the different ammo types
 var controlled_node
+var guided_node
+
+# Help variables for different ammo types
 var track_controlled : bool = false
+
 
 enum {
 	HITSCAN = 1,
@@ -86,12 +92,15 @@ func Initialize():
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _unhandled_input(event):
+	print("Unhandled input events starts")
 	if not manager_enabled:
+		print("WeaponManager not enabled")
 		return
 	if Current_Weapon == null:
 		print("No weapon, return")
 		return
 	if track_controlled:
+		print("Tracking...")
 		Track_Controlled()
 	if event.is_action_pressed("player_select_weapon_1"):
 		CheckWeapon(Weapon_Indicator, 0)
@@ -140,6 +149,7 @@ func _unhandled_input(event):
 				print("Charged weapon shoots!")
 	elif event.is_action_pressed("player_reload"):
 		reload()
+	print("Unhandled input events ends")
 
 func CheckWeapon(index:int, next_index:int):
 	print("Next weapon idx: ", next_index)
@@ -229,12 +239,18 @@ func shoot(hold_time : float = 0.0):
 			HITSCAN:
 				SpawnAmmo(Camera_Collision)
 			PROJECTILE:
-				SpawnAmmo(Camera_Collision, )
+				SpawnAmmo(Camera_Collision)
 			GUIDED:
+				if is_instance_valid(guided_node):
+					print("INstance not valid at guided")
+					return
+				print("INstance valid at guided")
 				SpawnAmmo(Camera_Collision)
 			CONTROLLED:
-				if controlled_node:
+				if is_instance_valid(controlled_node):
+					print("INstance not valid at controlled")
 					return
+					print("INstance valid at controlled")
 				SpawnAmmo(Camera_Collision)
 			CHARGED:
 				SpawnChargedBullet(Camera_Collision, hold_time)
@@ -255,6 +271,7 @@ func reload():
 		if Animation_Player:
 			if Animation_Player.is_playing():
 				return
+			else:
 				Animation_Player.play(Current_Weapon.weapon_resource.Reload_Anim)
 		if (Current_Weapon.weapon_resource.Reserve_Ammo + Current_Weapon.weapon_resource.Current_Ammo) <= Current_Weapon.weapon_resource.Full_Magazine:
 			Current_Weapon.weapon_resource.Current_Ammo = Current_Weapon.weapon_resource.Reserve_Ammo + Current_Weapon.weapon_resource.Current_Ammo
@@ -265,7 +282,7 @@ func reload():
 		emit_signal("weapon_update_ammo", [Current_Weapon.weapon_resource.Current_Ammo, Current_Weapon.weapon_resource.Reserve_Ammo])
 
  
-func Get_Camera_Collision(_use_ray_end : bool = false, ammo_node = null)->Vector3:
+func Get_Camera_Collision(_use_ray_end : bool = false)->Vector3:
 	# Get current camera view
 	var camera = get_viewport().get_camera_3d()
 	var viewport = get_viewport().get_size()
@@ -281,19 +298,22 @@ func Get_Camera_Collision(_use_ray_end : bool = false, ammo_node = null)->Vector
 	var RayParameters = PhysicsRayQueryParameters3D.create(RayOrigin,RayEnd)
 	
 	# TODO exclude team mates from the raycast
-	var exclude_bodies : Array = Global.player_body # List of player's bodies
-	if ammo_node:
-		exclude_bodies.append(ammo_node)
-	
+	var exclude_bodies : Array  # List of player's bodies
+	for body in Global.player_body:
+		exclude_bodies.append(body.get_rid())
+	if controlled_node and not controlled_node.is_queued_for_deletion() and is_instance_valid(controlled_node): 
+		exclude_bodies.append(controlled_node.get_rid())
+	if guided_node and not guided_node.is_queued_for_deletion() and is_instance_valid(guided_node):
+		exclude_bodies.append(guided_node.get_rid())
 	RayParameters.set_exclude(exclude_bodies)
 	var Intersection = get_world_3d().direct_space_state.intersect_ray(RayParameters)
 	if not Intersection.is_empty():
-		print("points at: " + var_to_str(Intersection.position))
+		#print("points at: " + var_to_str(Intersection.position))
 		return Intersection.position
 	else:
-		print("points at end of ray: " + var_to_str(RayEnd))
+		#print("points at end of ray: " + var_to_str(RayEnd))
 		return RayEnd
-		
+
 func HitScan_Collision(collision_point):
 	# Get direction between collision point and bullet spawnpoint as normalized vector
 	var HitScan_Direction = (collision_point - HitScan_SpawnPoint.get_global_transform().origin).normalized()
@@ -316,7 +336,8 @@ func SpawnAmmo(direction):
 	
 	# Collision exceptions with team players. (Now just one)
 	for body in Global.player_body:
-		ammo_node.add_collision_exception_with(body)
+		if ammo_node.has_method("add_collision_exception_with") and is_instance_valid(body):
+			ammo_node.add_collision_exception_with(body)
 	
 	#print("Bullet's global transform: " + var_to_str(bullet_node.global_transform))
 	#print("Bullet's global transform origin: " + var_to_str(bullet_node.global_transform.origin))
@@ -331,7 +352,11 @@ func SpawnAmmo(direction):
 		PROJECTILE:
 			pass
 		GUIDED:
-			pass
+			guided_node = ammo_node
+			guided_node.player_make_current()
+			guided_node.connect("guided_despawns", _on_guided_despawns)
+			if get_parent().has_method("player_elsewhere"):
+				get_parent().player_elsewhere()
 		CONTROLLED:
 			controlled_node = ammo_node
 			controlled_node.set_player(get_parent())
@@ -348,9 +373,16 @@ func SpawnChargedBullet(direction, hold_time):
 	bullet_node.initialize(hold_time)
 
 func Track_Controlled():
-	var ray_position = Get_Camera_Collision()
+	if controlled_node == null:
+		print("Tracking node null")
+		return
+	print("Getting cam collision")
+	var ray_position = Get_Camera_Collision() #false, controlled_node
+	print("Setting transform for update")
 	var target_transform = Transform3D(Basis.IDENTITY, ray_position)
+	print("Updating transform to the controlled")
 	controlled_node.update_target(target_transform)
+	print("Tracking ends")
 
 func RefillAmmo():
 	for weapon in Weapon_Stack:
@@ -396,8 +428,9 @@ func _on_ammo_timer_timeout():
 	
 
 func _on_controlled_despawns():
-	#controlled_node.disconnect("controlled_despawns", _on_controlled_despawns)
-	controlled_node.despawn()
-	controlled_node = null
+	print("Despawn signal emited from controlled.")
 	track_controlled = false
-	
+	controlled_node = null
+
+func _on_guided_despawns():
+	guided_node = null

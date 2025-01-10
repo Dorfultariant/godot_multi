@@ -20,6 +20,7 @@ var update_rocket_target : bool = false
 ## Internal variables
 # Can fire
 var can_shoot : bool = true
+var player_in_control : bool = true
 signal player_fires
 
 var selected_weapon
@@ -47,7 +48,7 @@ func _input(event: InputEvent) -> void:
 		Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
 		return
 		
-	if event is InputEventMouseMotion:
+	if player_in_control and event is InputEventMouseMotion:
 		# Turn tower
 		rotation.y -= event.relative.x / Global.mouseXSensibility
 		
@@ -56,7 +57,7 @@ func _input(event: InputEvent) -> void:
 		turret_barrel.rotation.x = clamp(turret_barrel.rotation.x, deg_to_rad(-50),deg_to_rad(15))
 		return
 	
-	if event.is_action_released("player_toggle_camera"):
+	if player_in_control and event.is_action_released("player_toggle_camera"):
 		if fp_cam.current:
 			fp_cam.current = false
 			tp_cam.current = true
@@ -138,13 +139,17 @@ func update_rocket():
 	var target_transform = Transform3D(Basis.IDENTITY, ray_position)
 	rocket_instance.update_target(target_transform)
 
+func player_make_current() -> void:
+	player_in_control = true
+
+func player_elsewhere() -> void:
+	player_in_control = false
 
 func _on_animation_finished(anim_name: StringName) -> void:
 	if anim_name == "fire":
 		can_shoot = true
 
 func _on_rocket_collision_detected() -> void:
-	rocket_instance.disconnect("collision_detected_signal", _on_rocket_collision_detected)
 	rocket_instance.despawn()
 	rocket_instance = null
 	can_shoot = true

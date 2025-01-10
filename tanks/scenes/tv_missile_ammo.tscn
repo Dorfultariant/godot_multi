@@ -1,0 +1,75 @@
+[gd_scene load_steps=10 format=3 uid="uid://ctw24y1qgu3ba"]
+
+[ext_resource type="Script" path="res://tanks/scripts/tv_missile_ammo.gd" id="1_1rwan"]
+[ext_resource type="Script" path="res://tanks/scripts/gpu_particles_despawn.gd" id="2_oyqh8"]
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_qi0co"]
+top_radius = 0.125
+bottom_radius = 0.15
+height = 0.5
+
+[sub_resource type="ConvexPolygonShape3D" id="ConvexPolygonShape3D_yiu3m"]
+points = PackedVector3Array(-0.0104005, -0.156818, -0.144828, 0.00448475, -0.186935, 0.146626, -0.0103935, -0.186548, 0.146324, 0.0194336, 0.238824, 0.123904, 0.147186, -0.240244, -0.0254595, -0.145669, -0.240388, -0.0329888, 0.0269345, 0.239161, -0.12252, -0.122524, 0.239211, 0.0269054, 0.115661, 0.237164, 0.0489488, -0.0769293, 0.23696, -0.099165, 0.0939003, -0.238381, 0.116225, -0.0844391, -0.237249, 0.123093, 0.0571003, -0.240427, -0.138202, 0.0998229, 0.23476, -0.076224, -0.085211, -0.239398, -0.122641, -0.0475821, 0.238317, 0.116194, -0.138201, -0.240465, 0.0571063, 0.138274, -0.237815, 0.0565142, -0.113184, 0.235361, -0.0543518, -0.0984825, 0.235386, 0.0779886, 0.117027, -0.239985, -0.0929401, 0.124119, 0.239191, -0.0178683, 0.0850924, 0.234602, 0.092425, -0.0254316, 0.239829, -0.122864, -0.122639, -0.239434, -0.0852411, 0.0564887, -0.237815, 0.138279, -0.0557384, -0.24134, -0.138729, 0.0705862, 0.205802, -0.105787, -0.0254748, -0.240224, 0.14718, 0.14693, -0.239823, 0.0270009, -0.122865, 0.239872, -0.0254189, -0.145142, -0.164636, 0.0119663)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_2hy6x"]
+albedo_color = Color(1, 0, 0, 1)
+
+[sub_resource type="PrismMesh" id="PrismMesh_3w2ky"]
+material = SubResource("StandardMaterial3D_2hy6x")
+left_to_right = -0.5
+size = Vector3(0.15, 0.075, 0.05)
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_fa8me"]
+gravity = Vector3(0, -1, 0)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_hyvdo"]
+transparency = 1
+albedo_color = Color(0.498039, 0.498039, 0.498039, 0.784314)
+
+[sub_resource type="TubeTrailMesh" id="TubeTrailMesh_4vk1r"]
+material = SubResource("StandardMaterial3D_hyvdo")
+radius = 0.2
+radial_steps = 5
+sections = 2
+section_rings = 5
+cap_top = false
+
+[node name="TVMissileAmmo" type="CharacterBody3D"]
+motion_mode = 1
+platform_on_leave = 2
+script = ExtResource("1_1rwan")
+
+[node name="MeshBody" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0)
+mesh = SubResource("CylinderMesh_qi0co")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0)
+shape = SubResource("ConvexPolygonShape3D_yiu3m")
+
+[node name="MeshWing1" type="MeshInstance3D" parent="."]
+transform = Transform3D(-4.37114e-08, 0, -1, -0.0630692, 0.998009, 2.75684e-09, 0.998009, 0.0630692, -4.36244e-08, 0, 0.182942, -0.170388)
+mesh = SubResource("PrismMesh_3w2ky")
+
+[node name="MeshWing2" type="MeshInstance3D" parent="."]
+transform = Transform3D(-4.91145e-08, 8.45056e-08, 1, 0.0627905, -0.998027, 8.74228e-08, 0.998027, 0.0627905, 4.37114e-08, 0, -0.183, -0.17)
+mesh = SubResource("PrismMesh_3w2ky")
+
+[node name="MeshWing3" type="MeshInstance3D" parent="."]
+transform = Transform3D(0.0627905, -0.998027, 4.37114e-08, 2.74466e-09, -4.36251e-08, -1, 0.998027, 0.0627905, 1.91069e-15, -0.183, 0, -0.17)
+mesh = SubResource("PrismMesh_3w2ky")
+
+[node name="MeshWing4" type="MeshInstance3D" parent="."]
+transform = Transform3D(-0.0627906, 0.998027, 4.37114e-08, 2.74466e-09, -4.36251e-08, 1, 0.998027, 0.0627906, 1.91069e-15, 0.183, 0, -0.17)
+mesh = SubResource("PrismMesh_3w2ky")
+
+[node name="GPUParticles3D" type="GPUParticles3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, -0.490588)
+amount = 52
+lifetime = 2.0
+process_material = SubResource("ParticleProcessMaterial_fa8me")
+draw_pass_1 = SubResource("TubeTrailMesh_4vk1r")
+script = ExtResource("2_oyqh8")
+
+[node name="Camera3D" type="Camera3D" parent="."]
+transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 0, 0, 0.311934)
