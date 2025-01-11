@@ -9,7 +9,7 @@ var RightTrackWheels : Array = []
 @export_range(100, 10000.0) var speed_forward : float = 2500.0
 @export_range(100, 10000.0) var speed_backward : float = 2000.0
 @export_range(0.1, 100.0) var speed_turn_max : float = 10.0
-@export_range(0.1, 100.0) var speed_turn_min : float = 5.0
+@export_range(0.1, 100.0) var speed_turn_min : float = 2.0
 @export_range(1.0, 10.0) var turbo_speed_mult : float = 1.5
 @export_range(0.1, 100.0) var speed_on_air : float = 0.0
 @export_range(0.1, 100.0) var acceleration : float = 1.2
@@ -89,6 +89,9 @@ func _ready() -> void:
 			wheel.damping_compression = spring_damping_compression
 			wheel.damping_relaxation = spring_damping_relaxation
 			wheel.wheel_friction_slip = 1
+			wheel.suspension_travel = spring_travel
+			wheel.wheel_rest_length = spring_rest_length
+			wheel.wheel_roll_influence = 0.95
 		else:
 			wheel.suspension_stiffness = spring_stiffness
 			wheel.suspension_max_force = spring_max_force
@@ -97,6 +100,9 @@ func _ready() -> void:
 			wheel.damping_compression = spring_damping_compression
 			wheel.damping_relaxation = spring_damping_relaxation
 			wheel.wheel_friction_slip = 1
+			wheel.suspension_travel = spring_travel
+			wheel.wheel_rest_length = spring_rest_length
+			wheel.wheel_roll_influence = 0.95
 	
 	# Set Weapon manager
 	wmanager.Initialize()

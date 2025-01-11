@@ -1,4 +1,4 @@
-[gd_scene load_steps=29 format=4 uid="uid://by5thtmi14f7a"]
+[gd_scene load_steps=30 format=4 uid="uid://by5thtmi14f7a"]
 
 [ext_resource type="Script" path="res://tanks/scripts/vehicle_body_tank.gd" id="1_d3nls"]
 [ext_resource type="PackedScene" uid="uid://dcuh6gog0jw5k" path="res://tanks/3D/low_poly_tank/turret_to_scale.tscn" id="2_xbcll"]
@@ -6,6 +6,15 @@
 [ext_resource type="PackedScene" uid="uid://c1fb04kbdbjqg" path="res://tanks/scenes/tv_missile_launcher.tscn" id="4_uksv3"]
 [ext_resource type="PackedScene" uid="uid://bffa80a72oy8l" path="res://tanks/scenes/heat.tscn" id="4_yp0fb"]
 [ext_resource type="PackedScene" uid="uid://7xrhlo1wsf3s" path="res://tanks/scenes/tow_launcher.tscn" id="5_tt7vr"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_8dpiw"]
+albedo_color = Color(0.237539, 0.237539, 0.237539, 1)
+metallic = 0.6
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_eh1fy"]
+material = SubResource("StandardMaterial3D_8dpiw")
+height = 0.7
+radial_segments = 6
 
 [sub_resource type="PrismMesh" id="PrismMesh_gup70"]
 size = Vector3(0.5, 1, 1)
@@ -15,9 +24,6 @@ size = Vector3(0.5, 1, 1)
 
 [sub_resource type="PrismMesh" id="PrismMesh_lx14x"]
 size = Vector3(0.5, 1, 1)
-
-[sub_resource type="CylinderShape3D" id="CylinderShape3D_vugg3"]
-height = 0.3
 
 [sub_resource type="PrismMesh" id="PrismMesh_wehbm"]
 size = Vector3(0.5, 1, 1)
@@ -333,36 +339,56 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.8, 0.75, 2)
 wheel_radius = 0.75
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="RFWheel"]
-transform = Transform3D(1.91069e-15, 4.37114e-08, 1, 1, -4.37114e-08, 0, 4.37114e-08, 1, -4.37114e-08, 0, 0, 0)
-mesh = SubResource("PrismMesh_gup70")
+transform = Transform3D(-4.37114e-08, -1, 1.06581e-14, 1, -4.37114e-08, 0, 4.02341e-21, 1.06581e-14, 1, 0, 0, 0)
+mesh = SubResource("CylinderMesh_eh1fy")
 
 [node name="RMWheel" type="VehicleWheel3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.8, 0.5, 0)
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="RMWheel"]
 transform = Transform3D(1.91069e-15, 4.37114e-08, 1, 1, -4.37114e-08, 0, 4.37114e-08, 1, -4.37114e-08, 0, 0, 0)
+visible = false
 mesh = SubResource("PrismMesh_gup70")
+
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="RMWheel"]
+transform = Transform3D(-4.37114e-08, -1, 1.06581e-14, 1, -4.37114e-08, 0, 4.02341e-21, 1.06581e-14, 1, 0, 0, 0)
+mesh = SubResource("CylinderMesh_eh1fy")
 
 [node name="RMWheel2" type="VehicleWheel3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.8, 0.5, -1)
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="RMWheel2"]
 transform = Transform3D(1.91069e-15, 4.37114e-08, 1, 1, -4.37114e-08, 0, 4.37114e-08, 1, -4.37114e-08, 0, 0, 0)
+visible = false
 mesh = SubResource("PrismMesh_gup70")
+
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="RMWheel2"]
+transform = Transform3D(-4.37114e-08, -1, 1.06581e-14, 1, -4.37114e-08, 0, 4.02341e-21, 1.06581e-14, 1, 0, 0, 0)
+mesh = SubResource("CylinderMesh_eh1fy")
 
 [node name="RMWheel3" type="VehicleWheel3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.8, 0.5, 1)
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="RMWheel3"]
 transform = Transform3D(1.91069e-15, 4.37114e-08, 1, 1, -4.37114e-08, 0, 4.37114e-08, 1, -4.37114e-08, 0, 0, 0)
+visible = false
 mesh = SubResource("PrismMesh_gup70")
+
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="RMWheel3"]
+transform = Transform3D(-4.37114e-08, -1, 1.06581e-14, 1, -4.37114e-08, 0, 4.02341e-21, 1.06581e-14, 1, 0, 0, 0)
+mesh = SubResource("CylinderMesh_eh1fy")
 
 [node name="RRWheel" type="VehicleWheel3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.8, 0.5, -2)
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="RRWheel"]
 transform = Transform3D(1.91069e-15, 4.37114e-08, 1, 1, -4.37114e-08, 0, 4.37114e-08, 1, -4.37114e-08, 0, 0, 0)
+visible = false
 mesh = SubResource("PrismMesh_6bjfq")
+
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="RRWheel"]
+transform = Transform3D(-4.37114e-08, -1, 1.06581e-14, 1, -4.37114e-08, 0, 4.02341e-21, 1.06581e-14, 1, 0, 0, 0)
+mesh = SubResource("CylinderMesh_eh1fy")
 
 [node name="LFWheel" type="VehicleWheel3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.8, 0.75, 2)
@@ -370,39 +396,60 @@ wheel_radius = 0.75
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="LFWheel"]
 transform = Transform3D(1.91069e-15, 4.37114e-08, 1, 1, -4.37114e-08, 0, 4.37114e-08, 1, -4.37114e-08, 0, 0, 0)
+visible = false
 mesh = SubResource("PrismMesh_lx14x")
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="LFWheel"]
-transform = Transform3D(-4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0, 1, 0, 0, 0)
-shape = SubResource("CylinderShape3D_vugg3")
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="LFWheel"]
+transform = Transform3D(-4.37114e-08, -1, 1.06581e-14, 1, -4.37114e-08, 0, 4.02341e-21, 1.06581e-14, 1, 0, 0, 0)
+mesh = SubResource("CylinderMesh_eh1fy")
 
 [node name="LMWheel" type="VehicleWheel3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.8, 0.5, 0)
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="LMWheel"]
 transform = Transform3D(1.91069e-15, 4.37114e-08, 1, 1, -4.37114e-08, 0, 4.37114e-08, 1, -4.37114e-08, 0, 0, 0)
+visible = false
 mesh = SubResource("PrismMesh_lx14x")
+
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="LMWheel"]
+transform = Transform3D(-4.37114e-08, -1, 1.06581e-14, 1, -4.37114e-08, 0, 4.02341e-21, 1.06581e-14, 1, 0, 0, 0)
+mesh = SubResource("CylinderMesh_eh1fy")
 
 [node name="LMWheel2" type="VehicleWheel3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.8, 0.5, -1)
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="LMWheel2"]
 transform = Transform3D(1.91069e-15, 4.37114e-08, 1, 1, -4.37114e-08, 0, 4.37114e-08, 1, -4.37114e-08, 0, 0, 0)
+visible = false
 mesh = SubResource("PrismMesh_lx14x")
+
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="LMWheel2"]
+transform = Transform3D(-4.37114e-08, -1, 1.06581e-14, 1, -4.37114e-08, 0, 4.02341e-21, 1.06581e-14, 1, 0, 0, 0)
+mesh = SubResource("CylinderMesh_eh1fy")
 
 [node name="LMWheel3" type="VehicleWheel3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.8, 0.5, 1)
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="LMWheel3"]
 transform = Transform3D(1.91069e-15, 4.37114e-08, 1, 1, -4.37114e-08, 0, 4.37114e-08, 1, -4.37114e-08, 0, 0, 0)
+visible = false
 mesh = SubResource("PrismMesh_lx14x")
+
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="LMWheel3"]
+transform = Transform3D(-4.37114e-08, -1, 1.06581e-14, 1, -4.37114e-08, 0, 4.02341e-21, 1.06581e-14, 1, 0, 0, 0)
+mesh = SubResource("CylinderMesh_eh1fy")
 
 [node name="LRWheel" type="VehicleWheel3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.8, 0.5, -2)
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="LRWheel"]
 transform = Transform3D(0, -2.98023e-08, 1, 1, -4.37114e-08, 0, 4.37114e-08, 1, 2.98023e-08, 0, 0, 0)
+visible = false
 mesh = SubResource("PrismMesh_wehbm")
+
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="LRWheel"]
+transform = Transform3D(-4.37114e-08, -1, 1.06581e-14, 1, -4.37114e-08, 0, 4.02341e-21, 1.06581e-14, 1, 0, 0, 0)
+mesh = SubResource("CylinderMesh_eh1fy")
 
 [node name="TrackRight" type="MeshInstance3D" parent="."]
 transform = Transform3D(1, 2.53518e-06, 2.53518e-06, 2.53518e-06, -1, 0, 2.53518e-06, 6.42715e-12, -1, 1.6961, 0.49316, 0.0215562)

@@ -1,7 +1,7 @@
 extends CharacterBody3D
 
 
-const SPEED = 1000.0
+const SPEED = 800.0
 const TURN_SPEED = 1.0
 const DAMAGE = 40.0
 

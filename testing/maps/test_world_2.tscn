@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=3 uid="uid://bcndamgh1i3oe"]
+[gd_scene load_steps=12 format=3 uid="uid://bcndamgh1i3oe"]
 
 [ext_resource type="PackedScene" uid="uid://byvdsbga2hwgp" path="res://testing/maps/csg_test_map.tscn" id="1_oxkc1"]
 [ext_resource type="PackedScene" uid="uid://bttul5nfsstyl" path="res://world_objects/moveable_ball.tscn" id="2_ddv1k"]
@@ -19,6 +19,18 @@ sky = SubResource("Sky_sik1j")
 tonemap_mode = 2
 glow_enabled = true
 
+[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_0s05o"]
+friction = 0.95
+bounce = 0.74
+
+[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_x3vd3"]
+friction = 0.75
+bounce = 0.25
+
+[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_xjpgh"]
+friction = 0.5
+bounce = 0.74
+
 [node name="TestWorld2" type="Node3D"]
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
@@ -33,6 +45,7 @@ directional_shadow_fade_start = 0.286
 
 [node name="MoveableBall" parent="." instance=ExtResource("2_ddv1k")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5.58475, 8.36762, -2.3872)
+mass = 500.0
 
 [node name="MoveableBall2" parent="." instance=ExtResource("2_ddv1k")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5.58475, 8.36762, -14.9344)
@@ -55,12 +68,18 @@ mass = 120.0
 
 [node name="MoveableBox" parent="." instance=ExtResource("4_sh3ci")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -12.1901, 14.8174, -19.268)
+mass = 750.0
+physics_material_override = SubResource("PhysicsMaterial_0s05o")
 
 [node name="MoveableBox2" parent="." instance=ExtResource("4_sh3ci")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 28.8772, 6.69756, -50.9179)
+mass = 1500.0
+physics_material_override = SubResource("PhysicsMaterial_x3vd3")
 
 [node name="MoveableBox3" parent="." instance=ExtResource("4_sh3ci")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.27734, 5.87415, -18.7157)
+mass = 250.0
+physics_material_override = SubResource("PhysicsMaterial_xjpgh")
 
 [node name="TargetTank" parent="." instance=ExtResource("5_s5erb")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -43.9272, 2.5, -23.3952)
