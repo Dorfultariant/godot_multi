@@ -1,7 +1,14 @@
-[gd_scene load_steps=10 format=3 uid="uid://ctw24y1qgu3ba"]
+[gd_scene load_steps=12 format=3 uid="uid://ctw24y1qgu3ba"]
 
 [ext_resource type="Script" path="res://tanks/scripts/tv_missile_ammo.gd" id="1_1rwan"]
+[ext_resource type="PackedScene" uid="uid://bu7huvu0ek0ma" path="res://tanks/scenes/explosion.tscn" id="2_moyoc"]
 [ext_resource type="Script" path="res://tanks/scripts/gpu_particles_despawn.gd" id="2_oyqh8"]
+
+[sub_resource type="Curve" id="Curve_upr7l"]
+max_value = 10.0
+bake_resolution = 256
+_data = [Vector2(0, 2.4892), 0.0, -37.905, 0, 0, Vector2(0.102778, 2.83784), 122.62, 158.148, 0, 0, Vector2(0.175, 7.5), 18.82, 8.09934, 0, 0, Vector2(1, 10), 0.0, 0.0, 0, 0]
+point_count = 4
 
 [sub_resource type="CylinderMesh" id="CylinderMesh_qi0co"]
 top_radius = 0.125
@@ -20,24 +27,27 @@ left_to_right = -0.5
 size = Vector3(0.15, 0.075, 0.05)
 
 [sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_fa8me"]
-gravity = Vector3(0, -1, 0)
+gravity = Vector3(0, -0.1, 0)
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_hyvdo"]
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_dq7un"]
 transparency = 1
-albedo_color = Color(0.498039, 0.498039, 0.498039, 0.784314)
+cull_mode = 2
+albedo_color = Color(0.54902, 0.290196, 0, 0.721569)
+emission_enabled = true
+emission = Color(0.584314, 0.156863, 0.156863, 1)
 
-[sub_resource type="TubeTrailMesh" id="TubeTrailMesh_4vk1r"]
-material = SubResource("StandardMaterial3D_hyvdo")
-radius = 0.2
-radial_steps = 5
+[sub_resource type="RibbonTrailMesh" id="RibbonTrailMesh_cmnnq"]
+material = SubResource("StandardMaterial3D_dq7un")
+size = 0.2
 sections = 2
-section_rings = 5
-cap_top = false
+section_segments = 1
 
 [node name="TVMissileAmmo" type="CharacterBody3D"]
 motion_mode = 1
 platform_on_leave = 2
 script = ExtResource("1_1rwan")
+speed_curve = SubResource("Curve_upr7l")
+explosion = ExtResource("2_moyoc")
 
 [node name="MeshBody" type="MeshInstance3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0)
@@ -64,12 +74,15 @@ transform = Transform3D(-0.0627906, 0.998027, 4.37114e-08, 2.74466e-09, -4.36251
 mesh = SubResource("PrismMesh_3w2ky")
 
 [node name="GPUParticles3D" type="GPUParticles3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, -0.490588)
-amount = 52
-lifetime = 2.0
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, -0.446202)
+amount = 16
+lifetime = 0.5
+preprocess = 0.5
+trail_lifetime = 1.0
 process_material = SubResource("ParticleProcessMaterial_fa8me")
-draw_pass_1 = SubResource("TubeTrailMesh_4vk1r")
+draw_pass_1 = SubResource("RibbonTrailMesh_cmnnq")
 script = ExtResource("2_oyqh8")
 
 [node name="Camera3D" type="Camera3D" parent="."]
 transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 0, 0, 0.311934)
+fov = 37.8493

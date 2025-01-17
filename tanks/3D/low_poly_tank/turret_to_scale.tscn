@@ -1,8 +1,7 @@
-[gd_scene load_steps=29 format=4 uid="uid://dcuh6gog0jw5k"]
+[gd_scene load_steps=28 format=4 uid="uid://dcuh6gog0jw5k"]
 
 [ext_resource type="Script" path="res://tanks/scripts/player_turret.gd" id="1_amwjh"]
 [ext_resource type="Material" uid="uid://cso5hyqdnvbbm" path="res://tanks/text_res/turret_green.tres" id="2_eboup"]
-[ext_resource type="PackedScene" uid="uid://xvjgenrkq2w5" path="res://tanks/ui/player_ui.tscn" id="3_q2f7w"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_81qrb"]
 resource_name = "Metal"
@@ -487,7 +486,7 @@ collision_mask = 3
 script = ExtResource("1_amwjh")
 
 [node name="MeshTurret" type="MeshInstance3D" parent="."]
-transform = Transform3D(-1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, -2.67668e-08, -0.0125373, 0.00617653)
+transform = Transform3D(-0.8, 0, 1.20797e-07, 0, 0.8, 0, -1.20797e-07, 0, -0.8, -2.67668e-08, -0.0125373, 0.00617653)
 mesh = SubResource("ArrayMesh_s68ia")
 skeleton = NodePath("")
 
@@ -513,8 +512,6 @@ transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, -1.421
 [node name="1stPersonCam" type="Camera3D" parent="MeshTurret/MeshBarrel"]
 transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 0.874176, 0.390577, 0.517983)
 near = 0.02
-
-[node name="Player_UI" parent="MeshTurret/MeshBarrel/1stPersonCam" instance=ExtResource("3_q2f7w")]
 
 [node name="SpringArm3D" type="SpringArm3D" parent="MeshTurret/MeshBarrel"]
 physics_interpolation_mode = 1

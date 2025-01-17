@@ -1,10 +1,11 @@
-[gd_scene load_steps=12 format=3 uid="uid://bcndamgh1i3oe"]
+[gd_scene load_steps=13 format=3 uid="uid://bcndamgh1i3oe"]
 
 [ext_resource type="PackedScene" uid="uid://byvdsbga2hwgp" path="res://testing/maps/csg_test_map.tscn" id="1_oxkc1"]
 [ext_resource type="PackedScene" uid="uid://bttul5nfsstyl" path="res://world_objects/moveable_ball.tscn" id="2_ddv1k"]
 [ext_resource type="PackedScene" uid="uid://c8itddy2ndkr5" path="res://world_objects/moveable_box.tscn" id="4_sh3ci"]
 [ext_resource type="PackedScene" uid="uid://by5thtmi14f7a" path="res://tanks/scenes/vehicle_body_tank.tscn" id="5_hhmbf"]
 [ext_resource type="PackedScene" uid="uid://b01jfv3kj6v2m" path="res://tanks/scenes/target_tank.tscn" id="5_s5erb"]
+[ext_resource type="PackedScene" uid="uid://bu6j51un8dfqw" path="res://world_objects/log.tscn" id="6_jy0ok"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_ar71t"]
 sky_horizon_color = Color(0.64625, 0.65575, 0.67075, 1)
@@ -89,3 +90,18 @@ transform = Transform3D(-0.665009, 0, 0.746836, 0, 1, 0, -0.746836, 0, -0.665009
 
 [node name="VehicleBodyTank" parent="." instance=ExtResource("5_hhmbf")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -22.4982, 8.04763, -91.9498)
+
+[node name="Log" parent="." instance=ExtResource("6_jy0ok")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -32.9124, 2.96918, -61.1641)
+
+[node name="Log2" parent="." instance=ExtResource("6_jy0ok")]
+transform = Transform3D(-0.589565, -0.0605259, -0.80545, -0.0357495, 0.998167, -0.0488401, 0.806929, 0, -0.590648, -33.7092, 3.48031, -61.2706)
+
+[node name="Log3" parent="." instance=ExtResource("6_jy0ok")]
+transform = Transform3D(0.870931, 0, -0.491405, 0, 1, 0, 0.491405, 0, 0.870931, -34.6586, 3.92611, -61.4126)
+
+[node name="Log4" parent="." instance=ExtResource("6_jy0ok")]
+transform = Transform3D(-0.258819, 0, -0.965926, 0, 1, 0, 0.965926, 0, -0.258819, -36.2046, 6.43159, -61.2927)
+
+[node name="Log5" parent="." instance=ExtResource("6_jy0ok")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -34.8849, 7.17753, -61.0964)

@@ -1,38 +1,60 @@
 extends CharacterBody3D
 
 
-const SPEED = 800.0
-const TURN_SPEED = 1.0
-const DAMAGE = 40.0
+@export_range(50.0, 2000.0) var speed_cap : float = 1200.0
+@export var speed_curve : Curve
+@export_range(0.0, 10.0) var turn_speed = 0.9
+@export_range(0.0, 100.0) var damage = 40.0
+@export_range(0.0, 100.0) var despawn_wait_time = 10.0
+const ORIENT_HORIZ_SPEED = 2.5
 
-var timer : Timer
+var despawn_timer : Timer
 var player_in_control : bool = false
 @onready var camera = $Camera3D
-var explosion = load("res://tanks/scenes/explosion.tscn")
-
+@export var explosion : PackedScene
+var target_rotation : Vector3
 signal guided_despawns
 
 func _ready() -> void:
-	timer = Timer.new()
-	add_sibling(timer)
-	timer.wait_time = 10.0
-	timer.timeout.connect(_on_timer_timeout)
+	# Set camera
 	camera.make_current()
-	timer.start()
+	
+	# Load the resource
+	if explosion != null:
+		print("Loading real explosion")
+		ResourceLoader.load_threaded_get(explosion.to_string())
+	else: # Backup
+		print("Loading backup explosion")
+		explosion.set_resource_path("res://tanks/scenes/explosion.tscn")
+		ResourceLoader.load_threaded_get(explosion.to_string())
+	
+	# Set our current target to be our current rotation
+	target_rotation = rotation
+	speed_curve.bake()
+	
+	# All set, create despawn timer and start it
+	despawn_timer = Timer.new()
+	add_sibling(despawn_timer)
+	despawn_timer.wait_time = despawn_wait_time
+	despawn_timer.timeout.connect(_on_timer_timeout)
+	despawn_timer.start()
 
 func _input(event: InputEvent) -> void:
 	if player_in_control and event is InputEventMouseMotion:
-		rotation.y -= event.relative.x / Global.mouseXSensibility
-		rotation.x -= -event.relative.y / Global.mouseYSensibility
-		#rotation.y -= lerp(rotation.y, event.relative.x / Global.mouseXSensibility, TURN_SPEED*0.02)
-		#rotation.x -= lerp(rotation.x, -event.relative.y / Global.mouseYSensibility, TURN_SPEED*0.02)
+		target_rotation.y -= event.relative.x / Global.mouseXSensibility
+		target_rotation.x -= -event.relative.y / Global.mouseYSensibility
 
 func _physics_process(delta: float) -> void:
 	var collision = get_last_slide_collision()
 	if collision:
 		collision_detected(collision)
+	var normalized_time = (despawn_wait_time - despawn_timer.time_left) / despawn_wait_time #clamp(velocity.length() / speed_cap, 0.0, 1.0)
+	var calc_velocity = speed_cap * speed_curve.sample(normalized_time)
+	velocity = transform.basis * Vector3.BACK * delta * calc_velocity
+	rotation.x = lerp_angle(rotation.x, target_rotation.x, turn_speed * delta)
+	rotation.y = lerp_angle(rotation.y, target_rotation.y, turn_speed * delta)
+	rotation.z = lerp_angle(rotation.z, deg_to_rad(0), ORIENT_HORIZ_SPEED * delta)
 	
-	velocity = transform.basis * Vector3.BACK * delta * SPEED * 10.0
 	#velocity.z = transform.origin.z * SPEED * ACCELERATION * delta
 	move_and_slide()
 
@@ -43,13 +65,15 @@ func _on_timer_timeout() -> void:
 	despawn()
 
 func collision_detected(_body) -> void:
+	ResourceLoader.load_threaded_get_status(explosion.to_string())
+	
 	var W = get_tree().get_root()
 	var E = explosion.instantiate()
 	E.set_global_transform(get_global_transform())
 	W.add_child(E)
 	
 	if _body.has_method("took_damage"):
-		_body.took_damage(DAMAGE)
+		_body.took_damage(damage)
 	despawn()
 
 func despawn() -> void:

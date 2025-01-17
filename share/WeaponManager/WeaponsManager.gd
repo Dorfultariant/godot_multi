@@ -92,7 +92,7 @@ func Initialize():
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _unhandled_input(event):
-	print("Unhandled input events starts")
+	#print("Unhandled input events starts")
 	if not manager_enabled:
 		print("WeaponManager not enabled")
 		return
@@ -149,7 +149,7 @@ func _unhandled_input(event):
 				print("Charged weapon shoots!")
 	elif event.is_action_pressed("player_reload"):
 		reload()
-	print("Unhandled input events ends")
+	#print("Unhandled input events ends")
 
 func CheckWeapon(index:int, next_index:int):
 	print("Next weapon idx: ", next_index)
