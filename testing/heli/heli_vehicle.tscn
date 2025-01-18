@@ -1,25 +1,95 @@
-[gd_scene load_steps=4 format=3 uid="uid://daksylblu3c10"]
+[gd_scene load_steps=13 format=3 uid="uid://daksylblu3c10"]
 
 [ext_resource type="Script" path="res://testing/heli/heli_vehicle.gd" id="1_41ank"]
+[ext_resource type="Script" path="res://share/WeaponManager/WeaponsManager.gd" id="2_v4eok"]
+[ext_resource type="PackedScene" uid="uid://bffa80a72oy8l" path="res://tanks/scenes/heat.tscn" id="3_mw7c0"]
+[ext_resource type="PackedScene" uid="uid://7xrhlo1wsf3s" path="res://tanks/scenes/tow_launcher.tscn" id="4_3n5tp"]
 
-[sub_resource type="BoxMesh" id="BoxMesh_w3fk6"]
-size = Vector3(1.8, 2, 4)
+[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_qncdq"]
+friction = 0.8
+bounce = 0.05
 
-[sub_resource type="ConvexPolygonShape3D" id="ConvexPolygonShape3D_1h2nm"]
-points = PackedVector3Array(0.853709, 1, 1.90861, -0.9, -0.995802, -1.96204, 0.881604, -1, -1.97018, 0.881604, -1, 1.97018, -0.9, -0.995802, 1.96204, -0.875794, 1, -1.90861, -0.875794, 1, 1.90861, 0.853709, 1, -1.90861)
+[sub_resource type="CylinderMesh" id="CylinderMesh_suhpu"]
+top_radius = 0.4
+bottom_radius = 0.25
+radial_segments = 6
+rings = 0
+cap_top = false
+
+[sub_resource type="ConvexPolygonShape3D" id="ConvexPolygonShape3D_hpb71"]
+points = PackedVector3Array(0.17727, 1.01587, 0.345951, -0.044794, 1.01587, -0.415792, -0.330468, 1.01587, 0.250713, 0.240808, -1.01587, 0.155475, 0.367886, 0.825347, -0.225316, -0.235267, -1.01587, 0.155475, -0.362273, 0.761905, -0.225316, 0.240808, -1.01587, -0.161824, -0.235267, -1.01587, -0.161824, -0.0130604, -1.01587, 0.282459, 0.336009, 1.01587, 0.250713, -0.044794, 0.793527, 0.409443, 0.0503353, 1.01587, -0.415792, -0.044794, -0.825347, -0.288808, -0.330468, 1.01587, -0.257062, 0.0820689, -0.952232, -0.257062, 0.272542, 1.01587, -0.288808, 0.0503353, 0.825347, 0.409443, -0.330468, 0.856969, 0.250713, 0.336009, 0.92061, 0.250713, 0.0503353, -0.856969, 0.282459, -0.171728, 1.01587, 0.345951, -0.139995, -1.01587, 0.218967, 0.0503353, 0.92061, -0.415792, -0.044794, 0.888789, -0.415792, -0.0765276, -0.984052, -0.257062, 0.209075, -0.92061, 0.187221, 0.0186017, -1.01587, 0.282459, -0.044794, -0.888789, 0.282459, 0.272542, 0.92061, -0.288808, -0.203534, -0.952232, 0.187221, 0.17727, 0.952232, 0.345951)
+
+[sub_resource type="SphereMesh" id="SphereMesh_kobrd"]
+radius = 0.9
+height = 2.0
+radial_segments = 6
+rings = 2
+
+[sub_resource type="ConvexPolygonShape3D" id="ConvexPolygonShape3D_phj14"]
+points = PackedVector3Array(-0.0223994, -0.509746, -0.751275, 0.0372989, 0.507978, 0.74543, 0.216214, 0.47733, 0.654573, 0.00756607, 0.512573, -0.755433, -0.651982, -0.509584, 0.38805, 0.672424, -0.483392, 0.391187, -0.650614, 0.508527, -0.390486, 0.669647, 0.481373, -0.392791, -0.0228169, 0.973116, 0.0287341, -0.651982, 0.509584, 0.38805, -0.0228169, -0.973116, 0.0287341, 0.669647, -0.481373, -0.392791, -0.0224617, -0.510806, 0.749588, -0.650614, -0.508527, -0.390486, 0.672424, 0.483392, 0.391187, 0.0375879, -0.965712, -0.0317475, 0.0375879, 0.965712, -0.0317475, -0.0525755, 0.480522, 0.749046, 0.0376565, -0.483959, -0.75766, 0.0372989, -0.507978, 0.74543, -0.052327, 0.478537, -0.74919, -0.623878, -0.481131, 0.419214, -0.62127, -0.479143, -0.42072, 0.610736, -0.542745, 0.360171, 0.610736, 0.542745, 0.360171, -0.022754, 0.971098, -0.0319156, 0.609478, 0.541614, -0.362661, -0.022754, -0.971098, -0.0319156, 0.609478, -0.541614, -0.362661, 0.0376565, 0.483959, -0.75766, -0.0224617, 0.510806, 0.749588, -0.0525755, -0.480522, 0.749046)
+
+[sub_resource type="BoxMesh" id="BoxMesh_2uf64"]
+size = Vector3(0.3, 0.5, 1)
+
+[sub_resource type="ConvexPolygonShape3D" id="ConvexPolygonShape3D_meius"]
+points = PackedVector3Array(0.149904, 0.25, 0.477246, -0.15, -0.244841, -0.48254, -0.148316, 0.25, -0.477152, -0.15, -0.244841, 0.48254, 0.15, -0.242222, -0.47746, 0.15, -0.242222, 0.47746, 0.149904, 0.25, -0.477246, -0.148316, 0.25, 0.477152, 0.15, 0.130775, -0.47746, 0.15, 0.115834, 0.47746)
+
+[sub_resource type="ConvexPolygonShape3D" id="ConvexPolygonShape3D_kpy50"]
+points = PackedVector3Array(0.149904, 0.25, 0.477246, -0.15, -0.244841, -0.48254, -0.148316, 0.25, -0.477152, -0.15, -0.244841, 0.48254, 0.15, -0.242222, -0.47746, 0.15, -0.242222, 0.47746, 0.149904, 0.25, -0.477246, -0.148316, 0.25, 0.477152, 0.15, 0.130775, -0.47746, 0.15, 0.115834, 0.47746)
 
 [node name="Heli_Vehicle" type="RigidBody3D"]
-mass = 500.0
+mass = 1500.0
+physics_material_override = SubResource("PhysicsMaterial_qncdq")
+gravity_scale = 1.5
 center_of_mass_mode = 1
+angular_damp = 0.5
 script = ExtResource("1_41ank")
 
 [node name="BodyMesh" type="MeshInstance3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.486095, 0)
-mesh = SubResource("BoxMesh_w3fk6")
+transform = Transform3D(1, 0, 0, 0, -0.10123, -0.994863, 0, 0.994863, -0.10123, 0, 1.30834, -1.58819)
+mesh = SubResource("CylinderMesh_suhpu")
+
+[node name="CollisionShape3D4" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, -0.10123, -0.994863, 0, 0.994863, -0.10123, 0, 1.30834, -1.58819)
+shape = SubResource("ConvexPolygonShape3D_hpb71")
+
+[node name="BodyMesh2" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, -0.0386668, -0.999252, 0, 0.999252, -0.0386668, 0, 1.06842, 0.0845746)
+mesh = SubResource("SphereMesh_kobrd")
+
+[node name="CollisionShape3D3" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, -0.0386668, -0.999252, 0, 0.999252, -0.0386668, 0, 1.06842, 0.0845746)
+shape = SubResource("ConvexPolygonShape3D_phj14")
+
+[node name="BodyMesh3" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.62343, 0.25205, 0.0845746)
+mesh = SubResource("BoxMesh_2uf64")
 
 [node name="CollisionShape3D2" type="CollisionShape3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.486095, 0)
-shape = SubResource("ConvexPolygonShape3D_1h2nm")
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.62343, 0.25205, 0.0845746)
+shape = SubResource("ConvexPolygonShape3D_meius")
+
+[node name="BodyMesh4" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.623, 0.252, 0.085)
+mesh = SubResource("BoxMesh_2uf64")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.623, 0.252, 0.085)
+shape = SubResource("ConvexPolygonShape3D_kpy50")
 
 [node name="Camera3D" type="Camera3D" parent="."]
-transform = Transform3D(-1, -3.55271e-15, -8.74228e-08, -4.16931e-08, 0.87895, 0.476913, 7.68403e-08, 0.476913, -0.87895, 0, 1.04872, 2.45197)
+transform = Transform3D(-1, 1.32806e-14, -8.74228e-08, -1.74652e-08, 0.979841, 0.199778, 8.56605e-08, 0.199778, -0.979841, 0, 3.05894, -4.35337)
+
+[node name="WeaponSpawn1" type="Node3D" parent="."]
+transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 1.02952, 0.776621, 0.295222)
+
+[node name="WeaponSpawn2" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 1.74846e-07, 0, 1, 0, -1.74846e-07, 0, 1, -1.03375, 0.776621, 0.295222)
+
+[node name="WeaponManager" type="Node3D" parent="."]
+script = ExtResource("2_v4eok")
+main_weapon_scene = ExtResource("3_mw7c0")
+main_spawn_parent = NodePath("../WeaponSpawn1")
+secondary_weapon_scene = ExtResource("4_3n5tp")
+secondary_spawn_parent = NodePath("../WeaponSpawn2")
+Start_Weapons = Array[String](["HEAT", "TOW"])

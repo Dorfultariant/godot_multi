@@ -41,7 +41,7 @@ var guided_node
 
 # Help variables for different ammo types
 var track_controlled : bool = false
-
+var initialized : bool = false
 
 enum {
 	HITSCAN = 1,
@@ -54,9 +54,13 @@ enum {
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	pass
+	Initialize()
 
 func Initialize():
+	if initialized:
+		print("Already initialized.")
+		return
+	initialized = true
 	# Finding Weapons
 	print("Finding Weapons")
 	if main_weapon_scene != null and main_spawn_parent != null:
@@ -89,6 +93,7 @@ func Initialize():
 	print("Current weapon name: " + var_to_str(Current_Weapon.weapon_resource.Weapon_Name))
 	emit_signal("weapon_update_stack", Weapon_Stack)
 	enter()
+	
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _unhandled_input(event):

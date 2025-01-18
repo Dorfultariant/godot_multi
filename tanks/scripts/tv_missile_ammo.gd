@@ -65,21 +65,19 @@ func _on_timer_timeout() -> void:
 	despawn()
 
 func collision_detected(_body) -> void:
-	ResourceLoader.load_threaded_get_status(explosion.to_string())
-	
-	var W = get_tree().get_root()
-	var E = explosion.instantiate()
-	E.set_global_transform(get_global_transform())
-	W.add_child(E)
-	
 	if _body.has_method("took_damage"):
 		_body.took_damage(damage)
 	despawn()
 
 func despawn() -> void:
+	ResourceLoader.load_threaded_get_status(explosion.to_string())
+	var W = get_tree().get_root()
+	var E = explosion.instantiate()
+	E.set_global_transform(get_global_transform())
+	W.add_child(E)
+	
 	Global.player_body[0].player_make_current()
 	emit_signal("guided_despawns")
-	var W = get_tree().get_root()
 	$GPUParticles3D.stop_emiting()
 	$GPUParticles3D.reparent(W)
 	print("TV missile despawns now.")

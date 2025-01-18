@@ -1,4 +1,4 @@
-[gd_scene load_steps=12 format=3 uid="uid://ctw24y1qgu3ba"]
+[gd_scene load_steps=11 format=3 uid="uid://ctw24y1qgu3ba"]
 
 [ext_resource type="Script" path="res://tanks/scripts/tv_missile_ammo.gd" id="1_1rwan"]
 [ext_resource type="PackedScene" uid="uid://bu7huvu0ek0ma" path="res://tanks/scenes/explosion.tscn" id="2_moyoc"]
@@ -29,18 +29,10 @@ size = Vector3(0.15, 0.075, 0.05)
 [sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_fa8me"]
 gravity = Vector3(0, -0.1, 0)
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_dq7un"]
-transparency = 1
-cull_mode = 2
-albedo_color = Color(0.54902, 0.290196, 0, 0.721569)
-emission_enabled = true
-emission = Color(0.584314, 0.156863, 0.156863, 1)
-
-[sub_resource type="RibbonTrailMesh" id="RibbonTrailMesh_cmnnq"]
-material = SubResource("StandardMaterial3D_dq7un")
-size = 0.2
+[sub_resource type="TubeTrailMesh" id="TubeTrailMesh_tec10"]
+radius = 0.2
+radial_steps = 6
 sections = 2
-section_segments = 1
 
 [node name="TVMissileAmmo" type="CharacterBody3D"]
 motion_mode = 1
@@ -75,14 +67,13 @@ mesh = SubResource("PrismMesh_3w2ky")
 
 [node name="GPUParticles3D" type="GPUParticles3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, -0.446202)
-amount = 16
-lifetime = 0.5
-preprocess = 0.5
+amount = 36
+lifetime = 10.0
 trail_lifetime = 1.0
 process_material = SubResource("ParticleProcessMaterial_fa8me")
-draw_pass_1 = SubResource("RibbonTrailMesh_cmnnq")
+draw_pass_1 = SubResource("TubeTrailMesh_tec10")
 script = ExtResource("2_oyqh8")
 
 [node name="Camera3D" type="Camera3D" parent="."]
 transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 0, 0, 0.311934)
-fov = 37.8493
+fov = 120.4

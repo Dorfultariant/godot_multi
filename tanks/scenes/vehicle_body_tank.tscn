@@ -1,10 +1,9 @@
-[gd_scene load_steps=35 format=4 uid="uid://by5thtmi14f7a"]
+[gd_scene load_steps=34 format=4 uid="uid://by5thtmi14f7a"]
 
 [ext_resource type="Script" path="res://tanks/scripts/vehicle_body_tank.gd" id="1_d3nls"]
 [ext_resource type="PackedScene" uid="uid://dcuh6gog0jw5k" path="res://tanks/3D/low_poly_tank/turret_to_scale.tscn" id="2_xbcll"]
 [ext_resource type="Script" path="res://share/WeaponManager/WeaponsManager.gd" id="3_5onca"]
 [ext_resource type="PackedScene" uid="uid://c1fb04kbdbjqg" path="res://tanks/scenes/tv_missile_launcher.tscn" id="4_uksv3"]
-[ext_resource type="PackedScene" uid="uid://bffa80a72oy8l" path="res://tanks/scenes/heat.tscn" id="4_yp0fb"]
 [ext_resource type="PackedScene" uid="uid://7xrhlo1wsf3s" path="res://tanks/scenes/tow_launcher.tscn" id="5_tt7vr"]
 [ext_resource type="PackedScene" uid="uid://xvjgenrkq2w5" path="res://tanks/ui/player_ui.tscn" id="7_fcbfn"]
 
@@ -518,6 +517,5 @@ main_spawn_parent = NodePath("../Turret/MeshTurret/MeshBarrel/MeshBarrelPipe/Wea
 secondary_weapon_scene = ExtResource("5_tt7vr")
 secondary_spawn_parent = NodePath("../Turret/MeshTurret/WeaponSpawn2")
 Start_Weapons = Array[String](["TVMISSILE", "TOW"])
-_weapon_scenes = Array[PackedScene]([ExtResource("4_yp0fb")])
 
 [node name="Player_UI" parent="." instance=ExtResource("7_fcbfn")]
