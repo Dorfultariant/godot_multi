@@ -118,6 +118,11 @@ func _unhandled_input(event):
 	#elif event.is_action_pressed("player_select_weapon_5"):
 		#CheckWeapon(Weapon_Indicator, 4)
 	elif event.is_action_pressed("player_shoot"):
+		if Current_Weapon.weapon_resource.Current_Ammo <= 0:
+			if Current_Weapon.has_method("stop_shoot_anim"):
+				Current_Weapon.stop_shoot_anim()
+			reload()
+			return
 		match Current_Weapon.weapon_resource.Type:
 			#NULL:
 				#print("Weapon Type not chosen!")
@@ -233,43 +238,37 @@ func Change_Weapon(next_weapon):
 	enter()
 
 func shoot(hold_time : float = 0.0):
-	if Current_Weapon.weapon_resource.Current_Ammo > 0:
-		if Animation_Player:
-			if Animation_Player.is_playing():
+	if Animation_Player:
+		if Animation_Player.is_playing():
+			return
+	var Camera_Collision = Get_Camera_Collision(true)
+	match Current_Weapon.weapon_resource.Type:
+		#NULL:
+			#print("Weapon Type not chosen!")
+		HITSCAN:
+			SpawnAmmo(Camera_Collision)
+		PROJECTILE:
+			SpawnAmmo(Camera_Collision)
+		GUIDED:
+			if is_instance_valid(guided_node):
+				print("INstance not valid at guided")
 				return
-		var Camera_Collision = Get_Camera_Collision(true)
-		match Current_Weapon.weapon_resource.Type:
-			#NULL:
-				#print("Weapon Type not chosen!")
-			HITSCAN:
-				SpawnAmmo(Camera_Collision)
-			PROJECTILE:
-				SpawnAmmo(Camera_Collision)
-			GUIDED:
-				if is_instance_valid(guided_node):
-					print("INstance not valid at guided")
-					return
-				print("INstance valid at guided")
-				SpawnAmmo(Camera_Collision)
-			CONTROLLED:
-				if is_instance_valid(controlled_node):
-					print("INstance not valid at controlled")
-					return
-					print("INstance valid at controlled")
-				SpawnAmmo(Camera_Collision)
-			CHARGED:
-				SpawnChargedBullet(Camera_Collision, hold_time)
-		if Animation_Player:
-			Animation_Player.play(Current_Weapon.weapon_resource.Shoot_Anim)
-		if Current_Weapon.has_method("shoot_anim"):
-			Current_Weapon.shoot_anim()
-		Current_Weapon.weapon_resource.Current_Ammo -= 1
-		emit_signal("weapon_update_ammo", [Current_Weapon.weapon_resource.Current_Ammo, Current_Weapon.weapon_resource.Reserve_Ammo])
-		
-	else:
-		if Current_Weapon.has_method("stop_shoot_anim"):
-			Current_Weapon.stop_shoot_anim()
-		reload()
+			print("INstance valid at guided")
+			SpawnAmmo(Camera_Collision)
+		CONTROLLED:
+			if is_instance_valid(controlled_node):
+				print("INstance not valid at controlled")
+				return
+				print("INstance valid at controlled")
+			SpawnAmmo(Camera_Collision)
+		CHARGED:
+			SpawnChargedBullet(Camera_Collision, hold_time)
+	if Animation_Player:
+		Animation_Player.play(Current_Weapon.weapon_resource.Shoot_Anim)
+	if Current_Weapon.has_method("shoot_anim"):
+		Current_Weapon.shoot_anim()
+	Current_Weapon.weapon_resource.Current_Ammo -= 1
+	emit_signal("weapon_update_ammo", [Current_Weapon.weapon_resource.Current_Ammo, Current_Weapon.weapon_resource.Reserve_Ammo])
 
 func reload():
 	if 0 < Current_Weapon.weapon_resource.Reserve_Ammo and Current_Weapon.weapon_resource.Current_Ammo < Current_Weapon.weapon_resource.Full_Magazine:
@@ -305,7 +304,8 @@ func Get_Camera_Collision(_use_ray_end : bool = false)->Vector3:
 	# TODO exclude team mates from the raycast
 	var exclude_bodies : Array  # List of player's bodies
 	for body in Global.player_body:
-		exclude_bodies.append(body.get_rid())
+		if is_instance_valid(body) and body != null:
+			exclude_bodies.append(body.get_rid())
 	if controlled_node and not controlled_node.is_queued_for_deletion() and is_instance_valid(controlled_node): 
 		exclude_bodies.append(controlled_node.get_rid())
 	if guided_node and not guided_node.is_queued_for_deletion() and is_instance_valid(guided_node):
@@ -379,15 +379,15 @@ func SpawnChargedBullet(direction, hold_time):
 
 func Track_Controlled():
 	if controlled_node == null:
-		print("Tracking node null")
+		#print("Tracking node null")
 		return
-	print("Getting cam collision")
+	#print("Getting cam collision")
 	var ray_position = Get_Camera_Collision() #false, controlled_node
-	print("Setting transform for update")
+	#print("Setting transform for update")
 	var target_transform = Transform3D(Basis.IDENTITY, ray_position)
-	print("Updating transform to the controlled")
+	#print("Updating transform to the controlled")
 	controlled_node.update_target(target_transform)
-	print("Tracking ends")
+	#print("Tracking ends")
 
 func RefillAmmo():
 	for weapon in Weapon_Stack:

@@ -1,7 +1,8 @@
-[gd_scene load_steps=10 format=3 uid="uid://blvlibb8wdk06"]
+[gd_scene load_steps=11 format=3 uid="uid://blvlibb8wdk06"]
 
 [ext_resource type="Script" path="res://tanks/scripts/tow_ammo.gd" id="1_bs324"]
 [ext_resource type="Script" path="res://tanks/scripts/gpu_particles_despawn.gd" id="2_emlr3"]
+[ext_resource type="Script" path="res://share/Health/damage_component.gd" id="3_la4pg"]
 
 [sub_resource type="CylinderMesh" id="CylinderMesh_qi0co"]
 top_radius = 0.125
@@ -34,10 +35,13 @@ sections = 2
 section_rings = 5
 cap_top = false
 
-[node name="TOWAmmo" type="CharacterBody3D"]
+[node name="TOWAmmo" type="CharacterBody3D" node_paths=PackedStringArray("damage_component")]
+collision_layer = 16
+collision_mask = 15
 motion_mode = 1
 platform_on_leave = 2
 script = ExtResource("1_bs324")
+damage_component = NodePath("DamageComponent")
 
 [node name="MeshBody" type="MeshInstance3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0)
@@ -70,3 +74,6 @@ lifetime = 2.0
 process_material = SubResource("ParticleProcessMaterial_fa8me")
 draw_pass_1 = SubResource("TubeTrailMesh_4vk1r")
 script = ExtResource("2_emlr3")
+
+[node name="DamageComponent" type="Node3D" parent="."]
+script = ExtResource("3_la4pg")

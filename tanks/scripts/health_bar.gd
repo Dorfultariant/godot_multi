@@ -36,7 +36,7 @@ signal revive_succesful(health_amount:float)
 
 var health_text
 
-var hitnumber = preload("res://scenes/shared/hit_number.tscn")
+var hitnumber = preload("res://share/Health/hit_number.tscn")
 
 # General hit function for every damage type. Testing 
 # Inputs:
@@ -79,9 +79,9 @@ func hit(_damage_type : int = 0, _damage_value : float = 0.0, _hit_position : Ve
 			#print("Distance to explosion: " + var_to_str((_hit_position - global_position).length()))
 			#print("Explosion damp: " + var_to_str(area_damage_damp))
 			health_value -= _damage_value
+	
 	if show_hitnumbers:
 		show_hitnumber(var_to_str(_damage_value), "-")
-	
 	
 	if health_value <= health_min:
 		health_value = health_min
@@ -116,8 +116,10 @@ func add_health(amount:float, _revived:bool = false) -> bool:
 func show_hitnumber(damage_text : String, _sign : String = ""):
 	# Instantiate the damage number and add to the world.
 	var number = hitnumber.instantiate()
+	var W = get_tree().get_root()
+	W.add_child(number)
+	
 	number.set_text(_sign + damage_text)
-	Global.spawn_node_on_world.add_child(number)
 	number.global_position = global_position
 	# Creating a tween to move 2.0 units upwards and then freeing itself
 	var tween = get_tree().create_tween()
@@ -139,4 +141,3 @@ func _process(delta):
 	if replenish_timer >= replenish_health_wait_time:
 		add_health(delta * replenish_health_per_second)
 	
-

@@ -1,7 +1,8 @@
-[gd_scene load_steps=13 format=4 uid="uid://cvs3wmih65xc5"]
+[gd_scene load_steps=14 format=4 uid="uid://cvs3wmih65xc5"]
 
 [ext_resource type="Script" path="res://tanks/scripts/tank_round.gd" id="1_p6a53"]
 [ext_resource type="Script" path="res://tanks/scripts/gpu_particles_despawn.gd" id="2_inwpw"]
+[ext_resource type="Script" path="res://share/Health/damage_component.gd" id="3_u7767"]
 
 [sub_resource type="PhysicsMaterial" id="PhysicsMaterial_6dx7h"]
 friction = 0.5
@@ -79,14 +80,15 @@ height = 0.4
 radial_segments = 8
 rings = 5
 
-[node name="TankRound" type="RigidBody3D"]
-collision_layer = 3
+[node name="TankRound" type="RigidBody3D" node_paths=PackedStringArray("damage_component")]
+collision_layer = 16
 collision_mask = 15
 mass = 40.0
 physics_material_override = SubResource("PhysicsMaterial_6dx7h")
 contact_monitor = true
 max_contacts_reported = 3
 script = ExtResource("1_p6a53")
+damage_component = NodePath("DamageComponent")
 
 [node name="Bullet_Shell_Shot" type="MeshInstance3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, -2.09684e-07, -1, 0, 4.797, -4.37114e-08, 0, 0, 0)
@@ -108,6 +110,9 @@ script = ExtResource("2_inwpw")
 [node name="Timer" type="Timer" parent="."]
 wait_time = 30.0
 autostart = true
+
+[node name="DamageComponent" type="Node3D" parent="."]
+script = ExtResource("3_u7767")
 
 [connection signal="body_entered" from="." to="." method="_on_body_entered"]
 [connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]

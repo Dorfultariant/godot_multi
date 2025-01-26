@@ -1,8 +1,9 @@
-[gd_scene load_steps=11 format=3 uid="uid://ctw24y1qgu3ba"]
+[gd_scene load_steps=12 format=3 uid="uid://ctw24y1qgu3ba"]
 
 [ext_resource type="Script" path="res://tanks/scripts/tv_missile_ammo.gd" id="1_1rwan"]
 [ext_resource type="PackedScene" uid="uid://bu7huvu0ek0ma" path="res://tanks/scenes/explosion.tscn" id="2_moyoc"]
 [ext_resource type="Script" path="res://tanks/scripts/gpu_particles_despawn.gd" id="2_oyqh8"]
+[ext_resource type="Script" path="res://share/Health/damage_component.gd" id="4_o4mr2"]
 
 [sub_resource type="Curve" id="Curve_upr7l"]
 max_value = 10.0
@@ -34,12 +35,15 @@ radius = 0.2
 radial_steps = 6
 sections = 2
 
-[node name="TVMissileAmmo" type="CharacterBody3D"]
+[node name="TVMissileAmmo" type="CharacterBody3D" node_paths=PackedStringArray("damage_component")]
+collision_layer = 16
+collision_mask = 15
 motion_mode = 1
 platform_on_leave = 2
 script = ExtResource("1_1rwan")
 speed_curve = SubResource("Curve_upr7l")
 explosion = ExtResource("2_moyoc")
+damage_component = NodePath("DamageComponent")
 
 [node name="MeshBody" type="MeshInstance3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0)
@@ -77,3 +81,6 @@ script = ExtResource("2_oyqh8")
 [node name="Camera3D" type="Camera3D" parent="."]
 transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 0, 0, 0.311934)
 fov = 120.4
+
+[node name="DamageComponent" type="Node3D" parent="."]
+script = ExtResource("4_o4mr2")

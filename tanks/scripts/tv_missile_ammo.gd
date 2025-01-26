@@ -4,7 +4,7 @@ extends CharacterBody3D
 @export_range(50.0, 2000.0) var speed_cap : float = 1200.0
 @export var speed_curve : Curve
 @export_range(0.0, 10.0) var turn_speed = 0.9
-@export_range(0.0, 100.0) var damage = 40.0
+@export_range(0.0, 200.0) var damage = 140.0
 @export_range(0.0, 100.0) var despawn_wait_time = 10.0
 const ORIENT_HORIZ_SPEED = 2.5
 
@@ -14,6 +14,8 @@ var player_in_control : bool = false
 @export var explosion : PackedScene
 var target_rotation : Vector3
 signal guided_despawns
+
+@export var damage_component : DamageComponent
 
 func _ready() -> void:
 	# Set camera
@@ -55,6 +57,8 @@ func _physics_process(delta: float) -> void:
 	rotation.y = lerp_angle(rotation.y, target_rotation.y, turn_speed * delta)
 	rotation.z = lerp_angle(rotation.z, deg_to_rad(0), ORIENT_HORIZ_SPEED * delta)
 	
+	if despawn_timer.time_left > 9.0:
+		velocity.y -= delta * 40 * ProjectSettings.get_setting("physics/3d/default_gravity")
 	#velocity.z = transform.origin.z * SPEED * ACCELERATION * delta
 	move_and_slide()
 
@@ -65,8 +69,8 @@ func _on_timer_timeout() -> void:
 	despawn()
 
 func collision_detected(_body) -> void:
-	if _body.has_method("took_damage"):
-		_body.took_damage(damage)
+	if damage_component:
+		damage_component.deal_damage(_body, damage)
 	despawn()
 
 func despawn() -> void:

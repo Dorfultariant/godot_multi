@@ -22,7 +22,8 @@ Global="*res://share/globals.gd"
 [display]
 
 window/size/viewport_width=1600
-window/size/viewport_height=800
+window/size/viewport_height=900
+window/size/initial_position_type=0
 
 [global_group]
 

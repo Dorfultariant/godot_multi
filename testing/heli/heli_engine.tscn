@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://bqa43bx0dku2w"]
+
+[ext_resource type="Script" path="res://testing/heli/heli_engine.gd" id="1_0faiq"]
+
+[node name="HeliEngine" type="Node3D"]
+script = ExtResource("1_0faiq")

@@ -1,17 +1,21 @@
-[gd_scene load_steps=13 format=3 uid="uid://daksylblu3c10"]
+[gd_scene load_steps=20 format=3 uid="uid://daksylblu3c10"]
 
 [ext_resource type="Script" path="res://testing/heli/heli_vehicle.gd" id="1_41ank"]
+[ext_resource type="Material" uid="uid://cvt4gu3fyxybv" path="res://testing/heli/heli_army_green.tres" id="2_r56ey"]
 [ext_resource type="Script" path="res://share/WeaponManager/WeaponsManager.gd" id="2_v4eok"]
-[ext_resource type="PackedScene" uid="uid://bffa80a72oy8l" path="res://tanks/scenes/heat.tscn" id="3_mw7c0"]
 [ext_resource type="PackedScene" uid="uid://7xrhlo1wsf3s" path="res://tanks/scenes/tow_launcher.tscn" id="4_3n5tp"]
+[ext_resource type="PackedScene" uid="uid://c1fb04kbdbjqg" path="res://tanks/scenes/tv_missile_launcher.tscn" id="4_gdeqg"]
+[ext_resource type="PackedScene" uid="uid://bqa43bx0dku2w" path="res://testing/heli/heli_engine.tscn" id="5_mpd54"]
+[ext_resource type="PackedScene" uid="uid://xvjgenrkq2w5" path="res://tanks/ui/player_ui.tscn" id="7_fpdkr"]
 
 [sub_resource type="PhysicsMaterial" id="PhysicsMaterial_qncdq"]
 friction = 0.8
 bounce = 0.05
 
 [sub_resource type="CylinderMesh" id="CylinderMesh_suhpu"]
+material = ExtResource("2_r56ey")
 top_radius = 0.4
-bottom_radius = 0.25
+bottom_radius = 0.1
 radial_segments = 6
 rings = 0
 cap_top = false
@@ -20,6 +24,7 @@ cap_top = false
 points = PackedVector3Array(0.17727, 1.01587, 0.345951, -0.044794, 1.01587, -0.415792, -0.330468, 1.01587, 0.250713, 0.240808, -1.01587, 0.155475, 0.367886, 0.825347, -0.225316, -0.235267, -1.01587, 0.155475, -0.362273, 0.761905, -0.225316, 0.240808, -1.01587, -0.161824, -0.235267, -1.01587, -0.161824, -0.0130604, -1.01587, 0.282459, 0.336009, 1.01587, 0.250713, -0.044794, 0.793527, 0.409443, 0.0503353, 1.01587, -0.415792, -0.044794, -0.825347, -0.288808, -0.330468, 1.01587, -0.257062, 0.0820689, -0.952232, -0.257062, 0.272542, 1.01587, -0.288808, 0.0503353, 0.825347, 0.409443, -0.330468, 0.856969, 0.250713, 0.336009, 0.92061, 0.250713, 0.0503353, -0.856969, 0.282459, -0.171728, 1.01587, 0.345951, -0.139995, -1.01587, 0.218967, 0.0503353, 0.92061, -0.415792, -0.044794, 0.888789, -0.415792, -0.0765276, -0.984052, -0.257062, 0.209075, -0.92061, 0.187221, 0.0186017, -1.01587, 0.282459, -0.044794, -0.888789, 0.282459, 0.272542, 0.92061, -0.288808, -0.203534, -0.952232, 0.187221, 0.17727, 0.952232, 0.345951)
 
 [sub_resource type="SphereMesh" id="SphereMesh_kobrd"]
+material = ExtResource("2_r56ey")
 radius = 0.9
 height = 2.0
 radial_segments = 6
@@ -37,13 +42,32 @@ points = PackedVector3Array(0.149904, 0.25, 0.477246, -0.15, -0.244841, -0.48254
 [sub_resource type="ConvexPolygonShape3D" id="ConvexPolygonShape3D_kpy50"]
 points = PackedVector3Array(0.149904, 0.25, 0.477246, -0.15, -0.244841, -0.48254, -0.148316, 0.25, -0.477152, -0.15, -0.244841, 0.48254, 0.15, -0.242222, -0.47746, 0.15, -0.242222, 0.47746, 0.149904, 0.25, -0.477246, -0.148316, 0.25, 0.477152, 0.15, 0.130775, -0.47746, 0.15, 0.115834, 0.47746)
 
+[sub_resource type="Curve" id="Curve_qacxw"]
+_data = [Vector2(0, 0), 0.0, 1.4, 0, 0, Vector2(1, 1), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_2jelc"]
+albedo_color = Color(0.215902, 0.215902, 0.215902, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_nnttx"]
+material = SubResource("StandardMaterial3D_2jelc")
+size = Vector3(4, 0.05, 0.25)
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_2lura"]
+radius = 1.0
+
 [node name="Heli_Vehicle" type="RigidBody3D"]
+collision_layer = 2
+collision_mask = 31
 mass = 1500.0
 physics_material_override = SubResource("PhysicsMaterial_qncdq")
 gravity_scale = 1.5
-center_of_mass_mode = 1
+inertia = Vector3(3000, 3000, 3000)
+linear_damp = 0.2
 angular_damp = 0.5
 script = ExtResource("1_41ank")
+lift_speed = 30.0
+engine_path = NodePath("HeliEngine")
 
 [node name="BodyMesh" type="MeshInstance3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, -0.10123, -0.994863, 0, 0.994863, -0.10123, 0, 1.30834, -1.58819)
@@ -77,9 +101,6 @@ mesh = SubResource("BoxMesh_2uf64")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.623, 0.252, 0.085)
 shape = SubResource("ConvexPolygonShape3D_kpy50")
 
-[node name="Camera3D" type="Camera3D" parent="."]
-transform = Transform3D(-1, 1.32806e-14, -8.74228e-08, -1.74652e-08, 0.979841, 0.199778, 8.56605e-08, 0.199778, -0.979841, 0, 3.05894, -4.35337)
-
 [node name="WeaponSpawn1" type="Node3D" parent="."]
 transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 1.02952, 0.776621, 0.295222)
 
@@ -88,8 +109,28 @@ transform = Transform3D(1, 0, 1.74846e-07, 0, 1, 0, -1.74846e-07, 0, 1, -1.03375
 
 [node name="WeaponManager" type="Node3D" parent="."]
 script = ExtResource("2_v4eok")
-main_weapon_scene = ExtResource("3_mw7c0")
+main_weapon_scene = ExtResource("4_gdeqg")
 main_spawn_parent = NodePath("../WeaponSpawn1")
 secondary_weapon_scene = ExtResource("4_3n5tp")
 secondary_spawn_parent = NodePath("../WeaponSpawn2")
-Start_Weapons = Array[String](["HEAT", "TOW"])
+Start_Weapons = Array[String](["TVMISSILE", "TOW"])
+
+[node name="HeliEngine" parent="." instance=ExtResource("5_mpd54")]
+max_hp = 1000.0
+power_curve = SubResource("Curve_qacxw")
+
+[node name="Propels" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.95638, 0)
+mesh = SubResource("BoxMesh_nnttx")
+
+[node name="SpringArm3D" type="SpringArm3D" parent="."]
+transform = Transform3D(-1, 0, -8.74228e-08, -7.54187e-09, 0.996272, 0.086269, 8.70969e-08, 0.086269, -0.996272, 0, 2.13867, -0.875111)
+shape = SubResource("SphereShape3D_2lura")
+spring_length = 5.0
+
+[node name="Camera3P" type="Camera3D" parent="SpringArm3D"]
+
+[node name="CameraFP" type="Camera3D" parent="."]
+transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 0, 1.34682, 0.663111)
+
+[node name="Player_UI" parent="." instance=ExtResource("7_fpdkr")]

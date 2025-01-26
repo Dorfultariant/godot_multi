@@ -138,7 +138,7 @@ func _physics_process(delta: float) -> void:
 			engine_force *= turbo_speed_mult #speed_forward * 1.3
 	else: #elif not braking_done: # Brake
 		engine_force = 0.0
-		brake = clamp(1.0 * brake_power / 2.0*velocity, 0.0, brake_power) # might need divide by zero check
+		brake = clamp(1.0 * brake_power / 2.0 * velocity, 0.0, brake_power) # might need divide by zero check
 	if player_in_control and input_movement < 0.0 and input_steering != 0.0:#Input.is_action_pressed("player_turn_left"):
 		#brake = 0.0
 		var left_pwr = -input_steering * turn_power_max * turn_influence #clamp(-input_steering * turn_power_max * turn_influence, -input_steering * turn_power_max, -input_steering * turn_power_max)

@@ -4,12 +4,15 @@ extends CharacterBody3D
 var SPEED : float = 500.0
 var ACCELERATION : float = 10.0
 var TURNING_SPEED : float = 5.5 # in degrees
-var DAMAGE : float = 400
+@export var damage : float = 200.0
 # Global position of the target the TOW should hit
 var target_transform
 var explosion = load("res://tanks/scenes/explosion.tscn")
 # Parent node in the node tree, add it in later.
 var player_in_control
+
+@export var damage_component : DamageComponent
+
 signal controlled_despawns
 
 func _ready() -> void:
@@ -42,8 +45,8 @@ func collision_detected(_body) -> void:
 	E.set_global_transform(get_global_transform())
 	W.add_child(E)
 	
-	if _body.has_method("took_damage"):
-		_body.took_damage(DAMAGE)
+	if damage_component:
+		damage_component.deal_damage(_body, damage)
 	
 	emit_signal("controlled_despawns")
 	despawn()
